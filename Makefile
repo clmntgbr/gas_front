@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME = docker
+PROJECT_NAME = gas
 
 DOCKER_COMPOSE = docker-compose -p $(PROJECT_NAME)
 
@@ -46,7 +46,7 @@ init: install update
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "site is available here: https://$(PROJECT_NAME).traefik.me"
+	@echo "site is available here: 'https://$(PROJECT_NAME).traefik.me'"
 	@echo "admin is available here: https://$(PROJECT_NAME).traefik.me/admin"
 
 ## Stop containers
@@ -54,6 +54,18 @@ stop:
 	@$(DOCKER_COMPOSE) down
 
 restart: stop start
+
+## Init project
+init: install update drop create migrate migration migrate fixture npm-install npm-build jwt
+
+## Init project
+init-db: drop create migrate migration migrate fixture
+
+jwt:
+	$(PHP) bin/console lexik:jwt:generate-keypair
+
+cache:
+	$(PHP) rm -r var/cache
 
 ## Entering php shell
 php:
@@ -75,6 +87,32 @@ install:
 update:
 	$(PHP) composer update
 
+npm-install:
+	$(PHP) npm install
+
+npm-build:
+	$(PHP) npm run build
+
+## Drop database
+drop:
+	$(PHP) bin/console doctrine:database:drop --if-exists --force
+
+## Load fixtures
+fixture:
+	$(PHP) bin/console hautelook:fixtures:load --env=dev --no-interaction
+
+## Create database
+create:
+	$(PHP) bin/console doctrine:database:create --if-not-exists
+
+## Making migration file
+migration:
+	$(PHP) bin/console make:migration
+
+## Applying migration
+migrate:
+	$(PHP) bin/console doctrine:migration:migrate --no-interaction
+
 ## QA
 cs-fixer:
 	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa php-cs-fixer fix ./src --rules=@Symfony
@@ -87,3 +125,16 @@ phpcpd:
 
 phpstan:
 	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa phpstan analyse ./src --level=5
+
+## Starting consumer
+consume:
+	$(PHP) bin/console messenger:consume async_priority_high async_priority_medium async_priority_low -vv
+
+consume-high:
+	$(PHP) bin/console messenger:consume async_priority_high -vv
+
+consume-medium:
+	$(PHP) bin/console messenger:consume async_priority_medium -vv
+
+consume-low:
+	$(PHP) bin/console messenger:consume async_priority_low -vv
