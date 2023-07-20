@@ -58,6 +58,9 @@ class GasStation
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
     private EmbeddedFile $image;
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $hash;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -197,6 +200,18 @@ class GasStation
     public function setGooglePlace(?GooglePlace $googlePlace): static
     {
         $this->googlePlace = $googlePlace;
+
+        return $this;
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(?string $hash): static
+    {
+        $this->hash = $hash;
 
         return $this;
     }

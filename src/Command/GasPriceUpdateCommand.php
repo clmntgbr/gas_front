@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\GasPriceUpdateCommandService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +16,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class GasPriceUpdateCommand extends Command
 {
+    public function __construct(
+        private GasPriceUpdateCommandService $gasPriceUpdateCommandService,
+    ) {
+        parent::__construct(self::getDefaultName());
+    }
+
     protected function configure(): void
     {
         $this;
@@ -23,6 +30,8 @@ class GasPriceUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        $this->gasPriceUpdateCommandService->invoke();
 
         return Command::SUCCESS;
     }

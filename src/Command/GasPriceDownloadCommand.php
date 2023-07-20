@@ -17,7 +17,6 @@ use Safe;
 )]
 class GasPriceDownloadCommand extends Command
 {
-
     public function __construct(
         private string $gasPriceUrl,
         private string $gasPricePath,

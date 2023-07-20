@@ -21,28 +21,16 @@ class GasStationRepository extends ServiceEntityRepository
         parent::__construct($registry, GasStation::class);
     }
 
-//    /**
-//     * @return GasStation[] Returns an array of GasStation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return []
+     */
+    public function findGasStationsById()
+    {
+        $query = $this->createQueryBuilder('s')
+            ->indexBy('s', 's.id')
+            ->select('s.id, s.hash')
+            ->getQuery();
 
-//    public function findOneBySomeField($value): ?GasStation
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $query->getArrayResult();
+    }
 }

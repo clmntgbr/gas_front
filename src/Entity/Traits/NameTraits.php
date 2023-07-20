@@ -4,7 +4,6 @@ namespace App\Entity\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 trait NameTraits
 {
@@ -12,8 +11,7 @@ trait NameTraits
     private ?string $name;
 
     #[ORM\Column(type: Types::STRING)]
-    #[Gedmo\Slug(fields: ['name'])]
-    private ?string $slug;
+    private ?string $reference;
 
     public function getName(): ?string
     {
@@ -26,14 +24,14 @@ trait NameTraits
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getReference(): ?string
     {
-        return $this->slug;
+        return $this->reference;
     }
 
-    public function setSlug(?string $slug)
+    public function setReference(?string $reference)
     {
-        $this->slug = $slug;
+        $this->reference = $reference;
         return $this;
     }
 }
