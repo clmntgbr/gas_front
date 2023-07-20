@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Safe;
+
 
 #[AsCommand(
     name: 'app:gas-price:download',
@@ -25,7 +25,7 @@ class GasPriceDownloadCommand extends Command
     ) {
         parent::__construct(self::getDefaultName());
     }
-    
+
     protected function configure(): void
     {
         $this;
@@ -59,7 +59,7 @@ class GasPriceDownloadCommand extends Command
         }
 
         $io->title('Step 4 : create new gas prices json file');
-        $elements = Safe\simplexml_load_file($xmlPath);
+        $elements = simplexml_load_file($xmlPath);
         $json = json_encode($elements);
         $data = json_decode($json, true);
 
@@ -69,7 +69,7 @@ class GasPriceDownloadCommand extends Command
 
         $io->title('Step 5 : deleting xml gas prices file');
         FileSystemService::delete(FileSystemService::find($this->gasPricePath, "%\.(xml)$%i"));
-        
+
         return Command::SUCCESS;
     }
 }

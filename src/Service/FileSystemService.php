@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use Safe;
+
 use ZipArchive;
 
 final class FileSystemService
@@ -10,7 +10,7 @@ final class FileSystemService
     public static function delete(?string $path = null, ?string $name = null): void
     {
         if (self::exist($path, $name)) {
-            Safe\unlink(sprintf('%s%s', $path, $name));
+            unlink(sprintf('%s%s', $path, $name));
         }
     }
 
@@ -32,7 +32,7 @@ final class FileSystemService
             return null;
         }
 
-        $scandir = Safe\scandir($path);
+        $scandir = scandir($path);
 
         foreach ($scandir as $file) {
             if ($name == $file) {
@@ -40,10 +40,10 @@ final class FileSystemService
             }
         }
 
-        $scandir = Safe\scandir($path);
+        $scandir = scandir($path);
 
         foreach ($scandir as $file) {
-            if (Safe\preg_match($name ?? '', $file)) {
+            if (preg_match($name ?? '', $file)) {
                 return sprintf('%s%s', $path, $file);
             }
         }
@@ -57,13 +57,13 @@ final class FileSystemService
             return;
         }
         self::createDirectoryIfDontExist($path);
-        Safe\file_put_contents(sprintf('%s%s', $path, $name), Safe\fopen($url, 'r'));
+        file_put_contents(sprintf('%s%s', $path, $name), fopen($url, 'r'));
     }
 
     public static function createDirectoryIfDontExist(string $path): void
     {
         if (!self::exist($path, null)) {
-            Safe\mkdir($path, 0777, true);
+            mkdir($path, 0777, true);
         }
     }
 
@@ -92,7 +92,7 @@ final class FileSystemService
     public static function getFile(string $path, string $name = null)
     {
         if (self::exist($path, $name)) {
-            return Safe\file_get_contents(sprintf('%s%s', $path, $name));
+            return file_get_contents(sprintf('%s%s', $path, $name));
         }
 
         return false;

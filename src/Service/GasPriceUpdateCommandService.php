@@ -5,8 +5,8 @@ namespace App\Service;
 use App\Entity\EntityId\GasStationId;
 use App\Message\CreateGasStationMessage;
 use App\Repository\GasStationRepository;
-use Safe;
 use Symfony\Component\Messenger\MessageBus;
+
 
 class GasPriceUpdateCommandService
 {
@@ -30,7 +30,7 @@ class GasPriceUpdateCommandService
         $content = fread($file, filesize("$this->gasPricePath/$this->gasPriceJsonName"));
         fclose($file);
 
-        $data = Safe\json_decode($content, true);
+        $data = json_decode($content, true);
 
         $gasStations = $this->gasStationRepository->findGasStationsById();
 

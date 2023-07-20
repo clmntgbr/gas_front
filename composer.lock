@@ -9847,7 +9847,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "TheCodingMachine\\Safe\\PHPStan\\": "src/"
+                    "TheCodingMachine\\\PHPStan\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
