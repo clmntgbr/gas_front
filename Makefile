@@ -113,6 +113,12 @@ migration:
 migrate:
 	$(PHP) bin/console doctrine:migration:migrate --no-interaction
 
+price-download:
+	$(PHP) bin/console app:gas-price:download
+
+price-update:
+	$(PHP) bin/console app:gas-price:update
+
 ## QA
 cs-fixer:
 	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa php-cs-fixer fix ./src --rules=@Symfony

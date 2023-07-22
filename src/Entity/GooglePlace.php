@@ -10,15 +10,17 @@ use App\Service\Uuid;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\Blameable;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: GooglePlaceRepository::class)]
 #[ApiResource]
 class GooglePlace
 {
     use IdentifyTraits;
-    use Timestampable;
-    use Blameable;
+    use TimestampableEntity;
+    use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 15, nullable: true)]
     private ?string $googleId = null;

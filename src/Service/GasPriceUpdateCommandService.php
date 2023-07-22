@@ -3,10 +3,12 @@
 namespace App\Service;
 
 use App\Entity\EntityId\GasStationId;
+use App\Entity\EntityId\GasTypeId;
+use App\Message\CreateGasPriceMessage;
 use App\Message\CreateGasStationMessage;
+use App\Message\UpdateGasStationMessage;
 use App\Repository\GasStationRepository;
-use Symfony\Component\Messenger\MessageBus;
-
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class GasPriceUpdateCommandService
 {
@@ -15,7 +17,7 @@ class GasPriceUpdateCommandService
         private readonly string $gasPriceJsonName,
         private readonly GasStationRepository $gasStationRepository,
         private readonly GasStationService $gasStationService,
-        private readonly MessageBus $messageBus,
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -43,9 +45,17 @@ class GasPriceUpdateCommandService
 
             $hash = $this->getHash($datum);
 
+            // dd(array_key_exists($gasStationId->getId(), $gasStations), $gasStations, $gasStationId->getId());
+
             if (!array_key_exists($gasStationId->getId(), $gasStations)) {
                 $this->createGasStationMessage($gasStationId, $hash, $datum);
             }
+
+            if (array_key_exists($gasStationId->getId(), $gasStations) && $gasStations[$gasStationId->getId()]['hash'] !== $hash) {
+                $this->updateGasStationMessage($gasStationId, $hash, $datum);
+            }
+
+            $this->createGasPricesMessage($gasStationId, $datum);
         }
     }
 
@@ -74,12 +84,59 @@ class GasPriceUpdateCommandService
         );
     }
 
+    private function createGasPricesMessage(GasStationId $gasStationId, array $datum)
+    {
+        foreach ($datum['prix'] ?? [] as $item) {
+            $gasTypeDatum = $this->getGasTypeId($datum, $item);
+            $this->messageBus->dispatch(
+                new CreateGasPriceMessage(
+                    $gasStationId,
+                    $gasTypeDatum['gasTypeId'],
+                    $gasTypeDatum['date'],
+                    $gasTypeDatum['value']
+                )
+            );
+        }
+    }
+
+    private function getGasTypeId(array $element, array $item): array
+    {
+        $gasTypeId = new GasTypeId($item['@attributes']['id'] ?? 0);
+        $date = $item['@attributes']['maj'] ?? null;
+        $value = $item['@attributes']['valeur'] ?? null;
+
+        if (1 == count($element['prix'])) {
+            $gasTypeId = new GasTypeId($item['id'] ?? 0);
+            $date = $item['maj'] ?? null;
+            $value = $item['valeur'] ?? null;
+        }
+
+        return ['gasTypeId' => $gasTypeId, 'date' => $date, 'value' => $value];
+    }
+
+    private function updateGasStationMessage(GasStationId $gasStationId, string $hash, array $datum)
+    {
+        $this->messageBus->dispatch(
+            new UpdateGasStationMessage(
+                $gasStationId,
+                $this->convert($datum['@attributes']['pop'] ?? ''),
+                $hash,
+                $this->convert($datum['@attributes']['cp'] ?? ''),
+                $this->convert($datum['@attributes']['longitude'] ?? ''),
+                $this->convert($datum['@attributes']['latitude'] ?? ''),
+                $this->convert($datum['adresse'] ?? ''),
+                $this->convert($datum['ville'] ?? ''),
+                'FRANCE',
+                $datum,
+            ),
+        );
+    }
+
     private function convert($datum): string
     {
         if (is_array($datum)) {
             return implode(' ', $datum);
         }
-
         return $datum;
     }
 }

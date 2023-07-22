@@ -10,7 +10,9 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\Blameable;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
@@ -19,8 +21,8 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 class GasPrice
 {
     use IdentifyTraits;
-    use Timestampable;
-    use Blameable;
+    use TimestampableEntity;
+    use BlameableEntity;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $value;

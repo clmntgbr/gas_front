@@ -64,3 +64,6 @@ framework:
                     max_delay: 0
 
         routing:
+            App\Message\CreateGasStationMessage: async_priority_high
+            App\Message\UpdateGasStationMessage: async_priority_high
+            App\Message\CreateGasPriceMessage: async_priority_medium

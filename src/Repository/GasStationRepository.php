@@ -27,8 +27,8 @@ class GasStationRepository extends ServiceEntityRepository
     public function findGasStationsById()
     {
         $query = $this->createQueryBuilder('s')
-            ->indexBy('s', 's.id')
-            ->select('s.id, s.hash')
+            ->indexBy('s', 's.gasStationId')
+            ->select('s.gasStationId, s.hash')
             ->getQuery();
 
         return $query->getArrayResult();

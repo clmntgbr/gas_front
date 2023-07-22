@@ -10,7 +10,9 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\Blameable;
+use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -20,11 +22,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class GasStation
 {
     use IdentifyTraits;
-    use Timestampable;
-    use Blameable;
+    use TimestampableEntity;
+    use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 10)]
     private string $pop;
+
+    #[ORM\Column(type: Types::STRING, length: 20)]
+    private string $gasStationId;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $name = null;
@@ -212,6 +217,18 @@ class GasStation
     public function setHash(?string $hash): static
     {
         $this->hash = $hash;
+
+        return $this;
+    }
+
+    public function getGasStationId(): ?string
+    {
+        return $this->gasStationId;
+    }
+
+    public function setGasStationId(string $gasStationId): static
+    {
+        $this->gasStationId = $gasStationId;
 
         return $this;
     }
