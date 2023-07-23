@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Address;
-use App\Entity\GasStation;
 use GuzzleHttp\Client;
 
 class PositionStackApiService

@@ -26,6 +26,7 @@ trait IdentifyTraits
     public function setId(int $id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -37,6 +38,7 @@ trait IdentifyTraits
     public function setUuid(?string $uuid)
     {
         $this->uuid = $uuid;
+
         return $this;
     }
 }

@@ -21,6 +21,7 @@ trait NameTraits
     public function setName(?string $name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -32,6 +33,7 @@ trait NameTraits
     public function setReference(?string $reference)
     {
         $this->reference = $reference;
+
         return $this;
     }
 

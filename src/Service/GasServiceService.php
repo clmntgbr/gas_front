@@ -5,8 +5,8 @@ namespace App\Service;
 use App\Entity\EntityId\GasStationId;
 use App\Entity\GasService;
 use App\Entity\GasStation;
-use Cocur\Slugify\Slugify;
 use App\Repository\GasServiceRepository;
+use Cocur\Slugify\Slugify;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 final class GasServiceService
@@ -35,6 +35,7 @@ final class GasServiceService
             foreach ($services['services']['service'] as $item) {
                 $this->getGasServices($gasStation, $item);
             }
+
             return;
         }
 

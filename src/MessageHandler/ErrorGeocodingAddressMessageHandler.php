@@ -2,24 +2,16 @@
 
 namespace App\MessageHandler;
 
-use App\Common\EntityId\GasStationId;
-use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
-use App\Message\CreateGooglePlaceTextsearchMessage;
-use App\Message\ErrorFormatAddressMessage;
 use App\Message\ErrorGeocodingAddressMessage;
-use App\Message\FormatAddressMessage;
-use App\Message\GeocodingAddressMessage;
 use App\Repository\AddressRepository;
 use App\Repository\GasStationRepository;
 use App\Service\AddressService;
 use App\Service\GasStationService;
 use App\Service\PositionStackApiService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler()]

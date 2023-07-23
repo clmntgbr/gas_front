@@ -4,12 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -252,7 +249,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
-            $this->updatedAt = new DateTime();
+            $this->updatedAt = new \DateTime();
         }
 
         return $this;

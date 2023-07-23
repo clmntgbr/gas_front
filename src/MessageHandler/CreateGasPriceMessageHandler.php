@@ -11,13 +11,10 @@ use App\Repository\CurrencyRepository;
 use App\Repository\GasPriceRepository;
 use App\Repository\GasStationRepository;
 use App\Repository\GasTypeRepository;
-use DateTimeZone;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe\DateTimeImmutable;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 #[AsMessageHandler()]
 final class CreateGasPriceMessageHandler
@@ -63,7 +60,7 @@ final class CreateGasPriceMessageHandler
             throw new UnrecoverableMessageHandlingException(sprintf('Date is null (id: %s)', $message->getDate()));
         }
 
-        $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace('T', ' ', substr($message->getDate(), 0, 19)), new DateTimeZone('Europe/Paris'));
+        $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace('T', ' ', substr($message->getDate(), 0, 19)), new \DateTimeZone('Europe/Paris'));
 
         $gasPrice = $this->gasPriceRepository->findOneBy(['dateTimestamp' => $date->getTimestamp(), 'gasType' => $gasType, 'gasStation' => $gasStation]);
         if ($gasPrice instanceof GasPrice) {

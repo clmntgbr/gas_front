@@ -6,12 +6,9 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GasPriceRepository;
 use App\Service\Uuid;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -29,7 +26,7 @@ class GasPrice
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Context([DateTimeNormalizer::FORMAT_KEY => 'd/m/Y h:i:s'])]
-    private DateTimeImmutable $date;
+    private \DateTimeImmutable $date;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $dateTimestamp;

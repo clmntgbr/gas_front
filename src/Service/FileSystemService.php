@@ -2,12 +2,9 @@
 
 namespace App\Service;
 
-
-use ZipArchive;
-
 final class FileSystemService
 {
-    public static function delete(?string $path = null, ?string $name = null): void
+    public static function delete(string $path = null, string $name = null): void
     {
         if (self::exist($path, $name)) {
             unlink(sprintf('%s%s', $path, $name));
@@ -72,7 +69,7 @@ final class FileSystemService
      */
     public static function unzip(string $zipfile, string $extractPath)
     {
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
 
         if ('true' != $zip->open($zipfile)) {
             return false;

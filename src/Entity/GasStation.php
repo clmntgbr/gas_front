@@ -6,16 +6,11 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GasStationRepository;
 use App\Service\Uuid;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
@@ -49,7 +44,7 @@ class GasStation
     private ?string $status;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private ?DateTimeImmutable $closedAt = null;
+    private ?\DateTimeImmutable $closedAt = null;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -76,7 +71,6 @@ class GasStation
 
     #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
     private Collection $gasServices;
-
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $lastGasPrices;
@@ -112,12 +106,12 @@ class GasStation
         return $this->imageFile;
     }
 
-    public function setImageFile(?File $imageFile = null): self
+    public function setImageFile(File $imageFile = null): self
     {
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
-            $this->updatedAt = new DateTime();
+            $this->updatedAt = new \DateTime();
         }
 
         return $this;
@@ -213,9 +207,10 @@ class GasStation
     {
         $json = [];
         foreach ($this->lastGasPrices as $key => $gasPrice) {
-            $gasPrice['date'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $gasPrice['date'] = (new \DateTime('now', new \DateTimeZone('Europe/Paris')))->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
             $json[$key] = $gasPrice;
         }
+
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
@@ -223,9 +218,10 @@ class GasStation
     {
         $json = [];
         foreach ($this->previousGasPrices as $key => $gasPrice) {
-            $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $gasPrice['date'] = (new \DateTime())->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
             $json[$key] = $gasPrice;
         }
+
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
@@ -343,7 +339,6 @@ class GasStation
 
         return $this;
     }
-
 
     public function hasGasService(GasService $gasService): bool
     {

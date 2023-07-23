@@ -2,17 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GasServiceRepository;
 use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Entity\Traits\NameTraits;
+use App\Repository\GasServiceRepository;
 use App\Service\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: GasServiceRepository::class)]

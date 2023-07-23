@@ -2,29 +2,23 @@
 
 namespace App\MessageHandler;
 
-use App\Entity\EntityId\GasStationId;
 use App\Entity\Address;
 use App\Entity\EntityId\AddressId;
+use App\Entity\EntityId\GasStationId;
 use App\Entity\GasStation;
 use App\Entity\GooglePlace;
 use App\Lists\GasStationStatusReference;
 use App\Message\CreateGasStationMessage;
-use App\Message\FormatAddressMessage;
 use App\Message\GeocodingAddressMessage;
 use App\Repository\GasStationRepository;
 use App\Repository\UserRepository;
-use App\Security\SecurityAuthenticator;
 use App\Service\FileSystemService;
 use App\Service\GasServiceService;
 use App\Service\Uuid;
-use DateTimeImmutable;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final class CreateGasStationMessageHandler
@@ -116,7 +110,7 @@ final class CreateGasStationMessageHandler
     {
         if (isset($element['fermeture']['attributes']['type']) && 'D' == $element['fermeture']['attributes']['type']) {
             $gasStation
-                ->setClosedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace('T', ' ', substr($element['fermeture']['attributes']['debut'], 0, 19))));
+                ->setClosedAt(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', str_replace('T', ' ', substr($element['fermeture']['attributes']['debut'], 0, 19))));
         }
     }
 }

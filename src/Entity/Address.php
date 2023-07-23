@@ -8,9 +8,7 @@ use App\Repository\AddressRepository;
 use App\Service\Uuid;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]

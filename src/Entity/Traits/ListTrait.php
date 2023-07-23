@@ -2,8 +2,6 @@
 
 namespace App\Entity\Traits;
 
-use ReflectionClass;
-
 trait ListTrait
 {
     /**
@@ -11,7 +9,7 @@ trait ListTrait
      */
     public static function getConstantsList(): array
     {
-        $class = new ReflectionClass(__CLASS__);
+        $class = new \ReflectionClass(__CLASS__);
         $constants = $class->getConstants();
         $result = [];
 

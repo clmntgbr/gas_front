@@ -20,6 +20,6 @@ class GasStationStatusReference
     public const OPEN = 'open';
     public const CLOSED = 'closed';
 
-//    public const FOUND_ON_GOV_MAP = 'found_on_gov_map';
-//    public const NOT_FOUND_ON_GOV_MAP = 'not_found_on_gov_map';
+    //    public const FOUND_ON_GOV_MAP = 'found_on_gov_map';
+    //    public const NOT_FOUND_ON_GOV_MAP = 'not_found_on_gov_map';
 }

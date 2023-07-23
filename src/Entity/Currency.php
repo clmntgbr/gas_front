@@ -8,9 +8,7 @@ use App\Entity\Traits\NameTraits;
 use App\Repository\CurrencyRepository;
 use App\Service\Uuid;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]

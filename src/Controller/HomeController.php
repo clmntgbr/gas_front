@@ -13,6 +13,7 @@ class HomeController extends AbstractController
     public function index(AddressRepository $addressRepository): Response
     {
         dd($addressRepository->findAll());
+
         return $this->render('Home/index.html.twig', []);
     }
 }

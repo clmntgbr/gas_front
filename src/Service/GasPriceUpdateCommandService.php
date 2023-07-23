@@ -63,6 +63,7 @@ class GasPriceUpdateCommandService
     {
         $element = $datum;
         unset($element['prix']);
+
         return hash('sha256', json_encode($element));
     }
 
@@ -137,6 +138,7 @@ class GasPriceUpdateCommandService
         if (is_array($datum)) {
             return implode(' ', $datum);
         }
+
         return $datum;
     }
 }
