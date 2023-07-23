@@ -69,6 +69,11 @@ class GooglePlace
         $this->uuid = Uuid::v4();
     }
 
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
     public function getGoogleId(): ?string
     {
         return $this->googleId;

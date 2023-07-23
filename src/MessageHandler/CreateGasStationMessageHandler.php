@@ -13,6 +13,7 @@ use App\Repository\GasStationRepository;
 use App\Repository\UserRepository;
 use App\Security\SecurityAuthenticator;
 use App\Service\FileSystemService;
+use App\Service\GasServiceService;
 use App\Service\Uuid;
 use DateTimeImmutable;
 use Doctrine\DBAL\DriverManager;
@@ -31,7 +32,7 @@ final class CreateGasStationMessageHandler
         private readonly MessageBusInterface $messageBus,
         private readonly GasStationRepository $gasStationRepository,
         private readonly UserRepository $userRepository,
-        private readonly Security $security,
+        private readonly GasServiceService $gasServiceService,
     ) {
     }
 
@@ -95,6 +96,8 @@ final class CreateGasStationMessageHandler
         if (null !== $gasStation->getClosedAt()) {
             $gasStation->setStatus(GasStationStatusReference::CLOSED);
         }
+
+        $this->gasServiceService->createGasServices($gasStation, $element);
 
         $this->em->persist($gasStation);
         $this->em->flush();

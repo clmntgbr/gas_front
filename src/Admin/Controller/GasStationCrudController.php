@@ -113,9 +113,9 @@ class GasStationCrudController extends AbstractCrudController
 
             FormField::addPanel('Json fields'),
             CodeEditorField::new('elementAdmin')->hideOnIndex()->setDisabled()->setLabel('Element'),
-            CodeEditorField::new('positionStackApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PositionStackApiResult'),
-            CodeEditorField::new('textsearchApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('TextsearchApiResult'),
-            CodeEditorField::new('placeDetailsApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PlaceDetailsApiResultAdmin'),
+            // CodeEditorField::new('positionStackApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PositionStackApiResult'),
+            // CodeEditorField::new('textsearchApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('TextsearchApiResult'),
+            // CodeEditorField::new('placeDetailsApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PlaceDetailsApiResultAdmin'),
         ];
     }
 }

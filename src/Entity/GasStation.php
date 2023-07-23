@@ -6,7 +6,10 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GasStationRepository;
 use App\Service\Uuid;
+use DateTime;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\Blameable;
@@ -19,6 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
 #[ApiResource]
+#[Vich\Uploadable]
 class GasStation
 {
     use IdentifyTraits;
@@ -38,7 +42,7 @@ class GasStation
     private ?string $company = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $statuses;
+    private ?array $statuses = [];
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $status;
@@ -66,20 +70,45 @@ class GasStation
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $hash;
 
+    #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
+    private Collection $gasPrices;
+
+    #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
+    private Collection $gasServices;
+
     public function __construct()
     {
+        $this->statuses = [];
         $this->uuid = Uuid::v4();
         $this->image = new \Vich\UploaderBundle\Entity\File();
+        $this->gasPrices = new ArrayCollection();
+        $this->gasServices = new ArrayCollection();
     }
 
-    public function getImage(): \Vich\UploaderBundle\Entity\File
+    public function getImage(): EmbeddedFile
     {
         return $this->image;
     }
 
-    public function setImage(\Vich\UploaderBundle\Entity\File $image): static
+    public function setImage(EmbeddedFile $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new DateTime();
+        }
 
         return $this;
     }
@@ -127,6 +156,10 @@ class GasStation
 
     public function setStatus(string $status): self
     {
+        if ($this->getPreviousStatus() === $status) {
+            return $this;
+        }
+
         $this->status = $status;
         $this->setStatuses($status);
 
@@ -231,5 +264,73 @@ class GasStation
         $this->gasStationId = $gasStationId;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, GasPrice>
+     */
+    public function getGasPrices(): Collection
+    {
+        return $this->gasPrices;
+    }
+
+    public function addGasPrice(GasPrice $gasPrice): static
+    {
+        if (!$this->gasPrices->contains($gasPrice)) {
+            $this->gasPrices->add($gasPrice);
+            $gasPrice->setGasStation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGasPrice(GasPrice $gasPrice): static
+    {
+        if ($this->gasPrices->removeElement($gasPrice)) {
+            // set the owning side to null (unless already changed)
+            if ($gasPrice->getGasStation() === $this) {
+                $gasPrice->setGasStation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GasService>
+     */
+    public function getGasServices(): Collection
+    {
+        return $this->gasServices;
+    }
+
+    public function addGasService(GasService $gasService): static
+    {
+        if (!$this->gasServices->contains($gasService)) {
+            $this->gasServices->add($gasService);
+            $gasService->addGasStation($this);
+        }
+
+        return $this;
+    }
+
+
+    public function hasGasService(GasService $gasService): bool
+    {
+        return $this->gasServices->contains($gasService);
+    }
+
+    public function removeGasService(GasService $gasService): static
+    {
+        if ($this->gasServices->removeElement($gasService)) {
+            $gasService->removeGasStation($this);
+        }
+
+        return $this;
+    }
+
+    public function getElementAdmin()
+    {
+        return json_encode($this->element, JSON_PRETTY_PRINT);
     }
 }

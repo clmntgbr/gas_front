@@ -39,7 +39,7 @@ class CurrencyCrudController extends AbstractCrudController
     {
         return [
             TextField::new('reference'),
-            TextField::new('label'),
+            TextField::new('name'),
         ];
     }
 }

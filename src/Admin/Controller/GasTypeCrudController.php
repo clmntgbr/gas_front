@@ -32,7 +32,7 @@ class GasTypeCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('reference'),
-            TextField::new('label'),
+            TextField::new('name'),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget(),

@@ -37,7 +37,7 @@ class GasServiceCrudController extends AbstractCrudController
     {
         return $filters
             ->add('reference')
-            ->add('label')
+            ->add('name')
             ->add(DateTimeFilter::new('createdAt'))
             ->add(DateTimeFilter::new('updatedAt'));
     }
@@ -47,7 +47,7 @@ class GasServiceCrudController extends AbstractCrudController
         if (Crud::PAGE_NEW === $pageName) {
             return [
                 TextField::new('reference'),
-                TextField::new('label'),
+                TextField::new('name'),
             ];
         }
 
@@ -55,7 +55,7 @@ class GasServiceCrudController extends AbstractCrudController
             return [
                 IdField::new('id'),
                 TextField::new('reference'),
-                TextField::new('label'),
+                TextField::new('name'),
                 DateTimeField::new('createdAt')
                     ->setFormat('dd/MM/Y HH:mm:ss')
                     ->renderAsNativeWidget(),
@@ -71,7 +71,7 @@ class GasServiceCrudController extends AbstractCrudController
                     ->setFormTypeOption('disabled', 'disabled'),
                 TextField::new('reference')
                     ->setFormTypeOption('disabled', 'disabled'),
-                TextField::new('label'),
+                TextField::new('name'),
                 DateTimeField::new('createdAt')
                     ->setFormat('dd/MM/Y HH:mm:ss')
                     ->renderAsNativeWidget()
@@ -87,7 +87,7 @@ class GasServiceCrudController extends AbstractCrudController
             return [
                 IdField::new('id'),
                 TextField::new('reference'),
-                TextField::new('label'),
+                TextField::new('name'),
                 DateTimeField::new('createdAt')
                     ->setFormat('dd/MM/Y HH:mm:ss')
                     ->renderAsNativeWidget(),

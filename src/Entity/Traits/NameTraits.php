@@ -34,4 +34,9 @@ trait NameTraits
         $this->reference = $reference;
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

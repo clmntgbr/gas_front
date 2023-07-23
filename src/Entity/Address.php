@@ -53,6 +53,11 @@ class Address
         $this->uuid = Uuid::v4();
     }
 
+    public function __toString()
+    {
+        return $this->street;
+    }
+
     public function getVicinity(): ?string
     {
         return $this->vicinity;
