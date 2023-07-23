@@ -4,13 +4,16 @@ namespace App\Entity\Traits;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait NameTraits
 {
     #[ORM\Column(type: Types::STRING)]
+    #[Groups(['get_gas_stations'])]
     private ?string $name;
 
     #[ORM\Column(type: Types::STRING)]
+    #[Groups(['get_gas_stations'])]
     private ?string $reference;
 
     public function getName(): ?string

@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 #[ApiResource]
@@ -20,6 +21,7 @@ class Address
     use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $vicinity = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]

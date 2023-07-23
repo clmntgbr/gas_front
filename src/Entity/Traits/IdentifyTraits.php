@@ -5,6 +5,7 @@ namespace App\Entity\Traits;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait IdentifyTraits
 {
@@ -16,6 +17,7 @@ trait IdentifyTraits
 
     #[ORM\Column(type: Types::GUID, unique: true, length: 36)]
     #[ApiProperty(identifier: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $uuid;
 
     public function getId(): ?int

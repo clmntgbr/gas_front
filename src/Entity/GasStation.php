@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\ApiResource\Controller\GasStationsMap;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GasStationRepository;
 use App\Service\Uuid;
@@ -13,16 +14,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get_gas_stations_map' => [
+            'method' => 'GET',
+            'path' => '/gas_stations/map',
+            'controller' => GasStationsMap::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_gas_stations', 'common']],
+        ],
+    ],
+    itemOperations: [
+        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['get_gas_station', 'common']]],
+    ],
+)]
 #[Vich\Uploadable]
 class GasStation
 {
@@ -31,31 +45,39 @@ class GasStation
     use BlameableEntity;
 
     #[ORM\Column(type: Types::STRING, length: 10)]
+    #[Groups(['get_gas_stations'])]
     private string $pop;
 
     #[ORM\Column(type: Types::STRING, length: 20)]
+    #[Groups(['get_gas_stations'])]
     private string $gasStationId;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $company = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $statuses = [];
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $status;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?\DateTimeImmutable $closedAt = null;
 
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
+    #[Groups(['get_gas_stations'])]
     #[ORM\JoinColumn(nullable: false)]
     private Address $address;
 
     #[ORM\ManyToOne(targetEntity: GooglePlace::class, cascade: ['persist', 'remove'])]
+    #[Groups(['get_gas_stations'])]
     #[ORM\JoinColumn(nullable: false)]
     private GooglePlace $googlePlace;
 
@@ -75,6 +97,7 @@ class GasStation
     private Collection $gasPrices;
 
     #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
+    #[Groups(['get_gas_stations'])]
     private Collection $gasServices;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -92,6 +115,24 @@ class GasStation
         $this->image = new \Vich\UploaderBundle\Entity\File();
         $this->gasPrices = new ArrayCollection();
         $this->gasServices = new ArrayCollection();
+    }
+
+    #[Groups(['get_gas_stations'])]
+    public function getImagePath(): string
+    {
+        return sprintf('/images/gas_stations/%s', $this->getImage()->getName());
+    }
+
+    #[Groups(['get_gas_stations'])]
+    public function getLastPrices(): array
+    {
+        return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->lastGasPrices)), $this->lastGasPrices);
+    }
+
+    #[Groups(['get_gas_stations'])]
+    public function getPreviousPrices(): array
+    {
+        return array_combine(array_slice([0, 1, 2, 3, 4, 5], 0, count($this->previousGasPrices)), $this->previousGasPrices);
     }
 
     public function getImage(): EmbeddedFile
