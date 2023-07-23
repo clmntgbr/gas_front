@@ -48,6 +48,9 @@ class Address
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $latitude;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $positionStackApiResult;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -162,6 +165,23 @@ class Address
     public function setLatitude(?string $latitude): static
     {
         $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getPositionStackApiResult(): array
+    {
+        return $this->positionStackApiResult;
+    }
+
+    public function getPositionStackApiResultAdmin(): string
+    {
+        return json_encode($this->positionStackApiResult, JSON_PRETTY_PRINT);
+    }
+
+    public function setPositionStackApiResult(?array $positionStackApiResult): self
+    {
+        $this->positionStackApiResult = $positionStackApiResult;
 
         return $this;
     }

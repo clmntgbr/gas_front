@@ -61,7 +61,7 @@ class GasStationCrudController extends AbstractCrudController
         return [
             FormField::addPanel('Gas Station Details'),
             IdField::new('gasStationId'),
-            TextField::new('hash')->hideOnIndex(),
+            TextField::new('hash')->hideOnIndex()->setDisabled(),
             TextField::new('pop')->hideOnIndex(),
             TextField::new('name'),
             TextField::new('company'),

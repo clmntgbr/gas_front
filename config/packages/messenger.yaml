@@ -66,4 +66,6 @@ framework:
         routing:
             App\Message\CreateGasStationMessage: async_priority_high
             App\Message\UpdateGasStationMessage: async_priority_high
-            App\Message\CreateGasPriceMessage: async_priority_medium
+            App\Message\CreateGasPriceMessage: async_priority_low
+            App\Message\GeocodingAddressMessage: async_priority_medium
+            App\Message\ErrorGeocodingAddressMessage: async_priority_medium

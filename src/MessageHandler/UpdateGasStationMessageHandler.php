@@ -2,13 +2,15 @@
 
 namespace App\MessageHandler;
 
-use App\Common\EntityId\GasStationId;
 use App\Entity\Address;
+use App\Entity\EntityId\AddressId;
+use App\Entity\EntityId\GasStationId;
 use App\Entity\GasStation;
 use App\Entity\GooglePlace;
 use App\Lists\GasStationStatusReference;
 use App\Message\CreateGasStationMessage;
 use App\Message\FormatAddressMessage;
+use App\Message\GeocodingAddressMessage;
 use App\Message\UpdateGasStationMessage;
 use App\Repository\GasStationRepository;
 use App\Repository\UserRepository;
@@ -98,9 +100,9 @@ final class UpdateGasStationMessageHandler
         $this->em->persist($gasStation);
         $this->em->flush();
 
-        // $this->messageBus->dispatch(
-        //     new FormatAddressMessage(new GasStationId($gasStation->getId()))
-        // );
+        $this->messageBus->dispatch(
+            new GeocodingAddressMessage(new AddressId($gasStation->getAddress()->getId()), new GasStationId($gasStation->getGasStationId()))
+        );
     }
 
     /**
