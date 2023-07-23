@@ -13,8 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
 #[ApiResource]
@@ -425,7 +430,7 @@ class GasStation
             'gasTypeId' => $gasPrice->getGasType()->getId(),
             'gasTypeLabel' => $gasPrice->getGasType()->getName(),
             'currency' => $gasPrice->getCurrency()->getName(),
-            'n-1' => $value,
+            'gasPriceDifference' => $value,
         ];
     }
 }
