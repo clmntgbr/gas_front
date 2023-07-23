@@ -8,6 +8,7 @@ use App\Repository\GasStationRepository;
 use App\Service\Uuid;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -76,10 +77,19 @@ class GasStation
     #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
     private Collection $gasServices;
 
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $lastGasPrices;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $previousGasPrices;
+
     public function __construct()
     {
         $this->statuses = [];
         $this->uuid = Uuid::v4();
+        $this->lastGasPrices = [];
+        $this->previousGasPrices = [];
         $this->image = new \Vich\UploaderBundle\Entity\File();
         $this->gasPrices = new ArrayCollection();
         $this->gasServices = new ArrayCollection();
@@ -197,6 +207,26 @@ class GasStation
     public function getClosedAt(): ?\DateTimeImmutable
     {
         return $this->closedAt;
+    }
+
+    public function getLastGasPricesAdmin()
+    {
+        $json = [];
+        foreach ($this->lastGasPrices as $key => $gasPrice) {
+            $gasPrice['date'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $json[$key] = $gasPrice;
+        }
+        return json_encode($json, JSON_PRETTY_PRINT);
+    }
+
+    public function getPreviousGasPricesAdmin()
+    {
+        $json = [];
+        foreach ($this->previousGasPrices as $key => $gasPrice) {
+            $gasPrice['date'] = (new DateTime())->setTimestamp($gasPrice['gasPriceDatetimestamp'])->format('Y-m-d h:s:i');
+            $json[$key] = $gasPrice;
+        }
+        return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     public function setClosedAt(?\DateTimeImmutable $closedAt): static
@@ -320,7 +350,69 @@ class GasStation
         return $this->gasServices->contains($gasService);
     }
 
-    public function removeGasService(GasService $gasService): static
+    public function getElementAdmin()
+    {
+        return json_encode($this->element, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getLastGasPrices(): array
+    {
+        return $this->lastGasPrices;
+    }
+
+    public function setLastGasPrices(GasPrice $gasPrice): self
+    {
+        $value = 'equal';
+
+        if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getId()]) {
+            $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
+            $value = $this->getGasPriceDifference($gasPrice);
+        }
+
+        $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice, $value);
+
+        return $this;
+    }
+
+    public function addLastGasPrices(array $gasPrice)
+    {
+        $this->lastGasPrices = $gasPrice;
+
+        return $this;
+    }
+
+    private function getGasPriceDifference(GasPrice $gasPrice)
+    {
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] > $gasPrice->getValue()) {
+            return 'lower';
+        }
+
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] < $gasPrice->getValue()) {
+            return 'higher';
+        }
+
+        return 'equal';
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getPreviousGasPrices()
+    {
+        return $this->previousGasPrices;
+    }
+
+    public function setPreviousGasPrices(GasPrice $gasPrice): self
+    {
+        $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+
+        return $this;
+    }
+
+    public function removeGasService(GasService $gasService): self
     {
         if ($this->gasServices->removeElement($gasService)) {
             $gasService->removeGasStation($this);
@@ -329,8 +421,16 @@ class GasStation
         return $this;
     }
 
-    public function getElementAdmin()
+    private function hydrateGasPrices(GasPrice $gasPrice, string $value = 'equal')
     {
-        return json_encode($this->element, JSON_PRETTY_PRINT);
+        return [
+            'gasPriceId' => $gasPrice->getId(),
+            'gasPriceDatetimestamp' => $gasPrice->getDateTimestamp(),
+            'gasPriceValue' => $gasPrice->getValue(),
+            'gasTypeId' => $gasPrice->getGasType()->getId(),
+            'gasTypeLabel' => $gasPrice->getGasType()->getName(),
+            'currency' => $gasPrice->getCurrency()->getName(),
+            'n-1' => $value,
+        ];
     }
 }

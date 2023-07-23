@@ -69,7 +69,7 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('status'),
             ArrayField::new('statuses')->hideOnIndex(),
             CodeEditorField::new('lastGasPricesAdmin')->hideOnIndex()->hideOnForm()->setLabel('lastGasPrices')->setNumOfRows(100),
-            Field::new('previousGasPricesAdmin')->hideOnIndex()->hideOnForm()->setLabel('previousGasPrices'),
+            CodeEditorField::new('previousGasPricesAdmin')->hideOnIndex()->hideOnForm()->setLabel('previousGasPrices'),
 
             FormField::addPanel('Gas Station Address'),
             AssociationField::new('address')->hideOnIndex(),
