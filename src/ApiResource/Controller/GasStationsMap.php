@@ -26,6 +26,6 @@ class GasStationsMap extends AbstractController
         $radius = $request->query->get('radius') ?? 10000000000;
 
         $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $request->query->all());
-        return $gasStations;
+        return $this->gasStationsMapService->invoke($gasStations);
     }
 }

@@ -15,42 +15,42 @@ final class GasStationsMapService
     /** @param GasStation[] $gasStations */
     public function invoke($gasStations)
     {
-        // foreach ($gasStations as $key => $gasStation) {
-        //     foreach ($gasStation->getLastGasPrices() as $gasPriceKey => $gasPrice) {
-        //         if (!array_key_exists($key, $this->lowGasPrices)) {
-        //             $this->updateLowGasPrices($gasStation, $key, $gasPriceKey, $gasPrice);
-        //             continue;
-        //         }
-        //         if (array_key_exists('gasPriceValue', $gasPrice) && array_key_exists('gasPriceValue', $this->lowGasPrices[$key]) && $gasPrice['gasPriceValue'] <= $this->lowGasPrices[$key]['gasPriceValue']) {
-        //             $this->updateLowGasPrices($gasStation, $key, $gasPriceKey, $gasPrice);
-        //             continue;
-        //         }
-        //     }
-        // }
+        foreach ($gasStations as $key => $gasStation) {
+            foreach ($gasStation->getLastGasPrices() as $gasPriceKey => $gasPrice) {
+                if (!array_key_exists($key, $this->lowGasPrices)) {
+                    $this->updateLowGasPrices($gasStation, $key, $gasPriceKey, $gasPrice);
+                    continue;
+                }
+                if (array_key_exists('gasPriceValue', $gasPrice) && array_key_exists('gasPriceValue', $this->lowGasPrices[$key]) && $gasPrice['gasPriceValue'] <= $this->lowGasPrices[$key]['gasPriceValue']) {
+                    $this->updateLowGasPrices($gasStation, $key, $gasPriceKey, $gasPrice);
+                    continue;
+                }
+            }
+        }
 
-        // foreach ($this->lowGasPrices as $key => $lowGasPrice) {
-        //     $gasStation = $gasStations[$lowGasPrice['gasStationIndex']];
-        //     $gasStation->setHasLowPrices(true);
+        foreach ($this->lowGasPrices as $key => $lowGasPrice) {
+            $gasStation = $gasStations[$lowGasPrice['gasStationIndex']];
+            $gasStation->setHasLowPrices(true);
 
-        //     $lastGasPrices = $gasStation->getLastGasPrices();
+            $lastGasPrices = $gasStation->getLastGasPrices();
 
-        //     if (array_key_exists($key, $lastGasPrices)) {
-        //         $prices = $lastGasPrices[$key];
-        //         $prices['isLowPrice'] = true;
-        //         $lastGasPrices[$key] = $prices;
-        //         $gasStation->addLastGasPrices($lastGasPrices);
-        //     }
+            if (array_key_exists($key, $lastGasPrices)) {
+                $prices = $lastGasPrices[$key];
+                $prices['isLowPrice'] = true;
+                $lastGasPrices[$key] = $prices;
+                $gasStation->addLastGasPrices($lastGasPrices);
+            }
 
-        //     $gasStations[$lowGasPrice['gasStationIndex']] = $gasStation;
-        // }
+            $gasStations[$lowGasPrice['gasStationIndex']] = $gasStation;
+        }
 
-        // return new GasStationsMapDto($gasStations);
+        return $gasStations;
     }
 
     private function updateLowGasPrices(GasStation $gasStation, int $key, string $gasPriceKey, array $gasPrice)
     {
         $this->lowGasPrices[$gasPriceKey] = [
-            'id' => $gasPrice['id'],
+            'id' => $gasPrice['gasPriceId'],
             'gasStationId' => $gasStation->getId(),
             'gasStationIndex' => $key,
         ];

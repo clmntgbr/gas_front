@@ -106,6 +106,9 @@ class GasStation
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $previousGasPrices;
 
+    #[Groups(['get_gas_stations'])]
+    private bool $hasLowPrices = false;
+
     public function __construct()
     {
         $this->statuses = [];
@@ -274,6 +277,18 @@ class GasStation
     public function setClosedAt(?\DateTimeImmutable $closedAt): static
     {
         $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    public function isHasLowPrices(): ?bool
+    {
+        return $this->hasLowPrices;
+    }
+
+    public function setHasLowPrices(bool $hasLowPrices): self
+    {
+        $this->hasLowPrices = $hasLowPrices;
 
         return $this;
     }
