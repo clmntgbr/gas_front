@@ -79,7 +79,7 @@ class GasStationRepository extends ServiceEntityRepository
             $gasTypes = explode(',', $filters['gas_type']);
             $query = ' AND (';
             foreach ($gasTypes as $gasType) {
-                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%" . trim($gasType) . "%' OR ";
+                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%".trim($gasType)."%' OR ";
             }
             $query = mb_substr($query, 0, -4);
             $query .= ')';
@@ -95,7 +95,7 @@ class GasStationRepository extends ServiceEntityRepository
             $gasServices = explode(',', $filters['gas_service']);
             $query = ' AND (';
             foreach ($gasServices as $gasService) {
-                $query .= "`gas_services` LIKE '%" . trim($gasService) . "%' OR ";
+                $query .= "`gas_services` LIKE '%".trim($gasService)."%' OR ";
             }
             $query = mb_substr($query, 0, -4);
             $query .= ')';

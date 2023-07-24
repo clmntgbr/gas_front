@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Dto\GasStationsMapDto;
 use App\Entity\GasStation;
 
 final class GasStationsMapService
