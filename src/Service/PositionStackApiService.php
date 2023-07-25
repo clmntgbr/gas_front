@@ -16,7 +16,8 @@ class PositionStackApiService
     public function forward(Address $address): ?array
     {
         $client = new Client();
-        $response = $client->request('GET', sprintf('%sforward?access_key=%s&query=%s', $this->positionStackUrl, $this->positionStackApiKey, urlencode($address->getVicinity())));
+        $url = sprintf('%sforward?access_key=%s&query=%s', $this->positionStackUrl, $this->positionStackApiKey, urlencode($address->getVicinity()));
+        $response = $client->request('GET', $url);
 
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
 
@@ -28,13 +29,16 @@ class PositionStackApiService
             return null;
         }
 
-        return $data['data'][0];
+        $datum = $data['data'][0];
+        $datum['forwardUrl'] = $url;
+        return $datum;
     }
 
     public function reverse(Address $address): ?array
     {
         $client = new Client();
-        $response = $client->request('GET', sprintf('%sreverse?access_key=%s&query=%s,%s', $this->positionStackUrl, $this->positionStackApiKey, $address->getLatitude(), $address->getLongitude()));
+        $url = sprintf('%sreverse?access_key=%s&query=%s,%s', $this->positionStackUrl, $this->positionStackApiKey, $address->getLatitude(), $address->getLongitude());
+        $response = $client->request('GET', $url);
 
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
 
@@ -46,6 +50,8 @@ class PositionStackApiService
             return null;
         }
 
-        return $data['data'][0];
+        $datum = $data['data'][0];
+        $datum['reverseUrl'] = $url;
+        return $datum;
     }
 }
