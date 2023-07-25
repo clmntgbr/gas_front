@@ -21,12 +21,11 @@ class GasStationsMap extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $latitude = $request->query->get('latitude') ?? 48.856614;
-        $longitude = $request->query->get('longitude') ?? 2.3522219;
-        $radius = $request->query->get('radius') ?? 10000000000;
+        $latitude = $request->query->get('latitude') ?? 48.764977;
+        $longitude = $request->query->get('longitude') ?? 2.358192;
+        $radius = $request->query->get('radius') ?? 50000;
 
         $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $request->query->all());
-
         return $this->gasStationsMapService->invoke($gasStations);
     }
 }

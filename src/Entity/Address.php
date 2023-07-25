@@ -25,27 +25,33 @@ class Address
     private ?string $vicinity = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $street;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $number = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $city;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $region = null;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $postalCode;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
     private ?string $country;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $longitude;
 
     #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    #[Groups(['get_gas_stations'])]
     private ?string $latitude;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
