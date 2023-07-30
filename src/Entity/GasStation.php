@@ -56,16 +56,16 @@ class GasStation
     #[Groups(['get_gas_stations'])]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_gas_stations'])]
-    private ?string $company = null;
-
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $statuses = [];
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Groups(['get_gas_stations'])]
     private ?string $status;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    #[Groups(['get_gas_stations'])]
+    private bool $hasGasStationBrandVerified = false;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Groups(['get_gas_stations'])]
@@ -92,6 +92,10 @@ class GasStation
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $hash;
+
+    #[ORM\ManyToOne(targetEntity: GasStationBrand::class, cascade: ['persist'], fetch: 'LAZY')]
+    #[Groups(['get_gas_stations'])]
+    private GasStationBrand $gasStationBrand;
 
     #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $gasPrices;
@@ -186,18 +190,6 @@ class GasStation
     public function setName(?string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCompany(): ?string
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?string $company): static
-    {
-        $this->company = $company;
 
         return $this;
     }
@@ -421,7 +413,7 @@ class GasStation
 
     public function setLastGasPrices(GasPrice $gasPrice): self
     {
-        $value = 'equal';
+        $value = 'stable';
 
         if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getId()]) {
             $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
@@ -443,14 +435,14 @@ class GasStation
     private function getGasPriceDifference(GasPrice $gasPrice)
     {
         if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] > $gasPrice->getValue()) {
-            return 'lower';
+            return 'decreasing';
         }
 
         if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] < $gasPrice->getValue()) {
-            return 'higher';
+            return 'increasing';
         }
 
-        return 'equal';
+        return 'stable';
     }
 
     /**
@@ -477,7 +469,7 @@ class GasStation
         return $this;
     }
 
-    private function hydrateGasPrices(GasPrice $gasPrice, string $value = 'equal')
+    private function hydrateGasPrices(GasPrice $gasPrice, string $value = 'stable')
     {
         return [
             'gasPriceId' => $gasPrice->getId(),
@@ -488,5 +480,29 @@ class GasStation
             'currency' => $gasPrice->getCurrency()->getName(),
             'gasPriceDifference' => $value,
         ];
+    }
+
+    public function getGasStationBrand(): ?GasStationBrand
+    {
+        return $this->gasStationBrand;
+    }
+
+    public function setGasStationBrand(?GasStationBrand $gasStationBrand): static
+    {
+        $this->gasStationBrand = $gasStationBrand;
+
+        return $this;
+    }
+
+    public function isHasGasStationBrandVerified(): ?bool
+    {
+        return $this->hasGasStationBrandVerified;
+    }
+
+    public function setHasGasStationBrandVerified(?bool $hasGasStationBrandVerified): static
+    {
+        $this->hasGasStationBrandVerified = $hasGasStationBrandVerified;
+
+        return $this;
     }
 }

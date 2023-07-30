@@ -55,8 +55,8 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL  $gasTypeFilter $cityFilter $departmentFilter
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'address_formated'  $gasTypeFilter $cityFilter $departmentFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL  $gasTypeFilter $cityFilter $departmentFilter
+                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'address_formated'  $gasTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius $gasServiceFilter
                     ORDER BY `distance` ASC LIMIT 50;
         ";

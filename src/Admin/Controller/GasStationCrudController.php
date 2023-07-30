@@ -46,7 +46,6 @@ class GasStationCrudController extends AbstractCrudController
     {
         return $filters
             ->add('gasStationId')
-            ->add('company')
             ->add('pop')
             ->add(GasStationStatusFilter::new('status'))
             ->add(TextFilter::new('address'))
@@ -63,7 +62,6 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('hash')->hideOnIndex()->setDisabled(),
             TextField::new('pop')->hideOnIndex(),
             TextField::new('name'),
-            TextField::new('company'),
             TextField::new('googlePlaceId')->onlyOnIndex(),
             TextField::new('status'),
             ArrayField::new('statuses')->hideOnIndex(),
@@ -72,6 +70,9 @@ class GasStationCrudController extends AbstractCrudController
 
             FormField::addPanel('Gas Station Address'),
             AssociationField::new('address')->hideOnIndex(),
+
+            FormField::addPanel('Gas Station Brand'),
+            AssociationField::new('gasStationBrand'),
 
             FormField::addPanel('Gas Station Google Place'),
             AssociationField::new('googlePlace')->hideOnIndex(),

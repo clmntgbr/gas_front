@@ -1,0 +1,9 @@
+App\Entity\GasStationBrand:
+  brand_total:
+    reference: "total"
+    name: "Total"
+    image.name: "64c65583705b7210748646.png"
+    image.originalName: "64c65583705b7210748646.png"
+    image.mimeType: "image/png"
+    image.size: "19154"
+    image.dimensions: ["251", "400"]

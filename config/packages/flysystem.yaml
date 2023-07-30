@@ -3,12 +3,20 @@ flysystem:
     default.storage:
       adapter: "local"
       options:
-        directory: "%kernel.project_dir%/public/images/products"
+        directory: "%kernel.project_dir%/public/images"
     user.storage:
       adapter: "local"
       options:
         directory: "%kernel.project_dir%/public/images/users"
-    product.storage:
+    gas_stations.storage:
       adapter: "local"
       options:
-        directory: "%kernel.project_dir%/public/images/products"
+        directory: "%kernel.project_dir%/public/images/gas_stations"
+    gas_stations_brand.storage:
+      adapter: "local"
+      options:
+        directory: "%kernel.project_dir%/public/images/gas_stations_brand"
+    gas_types.storage:
+      adapter: "local"
+      options:
+        directory: "%kernel.project_dir%/public/images/gas_types"

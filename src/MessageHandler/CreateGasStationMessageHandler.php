@@ -10,6 +10,7 @@ use App\Entity\GooglePlace;
 use App\Lists\GasStationStatusReference;
 use App\Message\CreateGasStationMessage;
 use App\Message\GeocodingAddressMessage;
+use App\Repository\GasStationBrandRepository;
 use App\Repository\GasStationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileSystemService;
@@ -27,6 +28,7 @@ final class CreateGasStationMessageHandler
         private EntityManagerInterface $em,
         private readonly MessageBusInterface $messageBus,
         private readonly GasStationRepository $gasStationRepository,
+        private readonly GasStationBrandRepository $gasStationBrandRepository,
         private readonly UserRepository $userRepository,
         private readonly GasServiceService $gasServiceService,
     ) {
@@ -49,6 +51,7 @@ final class CreateGasStationMessageHandler
         }
 
         $user = $this->userRepository->findOneBy(['email' => 'clement@gmail.com']);
+        $gasStationBrand = $this->gasStationBrandRepository->findOneBy(['reference' => 'total']);
 
         $address = new Address();
         $address
@@ -69,6 +72,8 @@ final class CreateGasStationMessageHandler
         $gasStation
             ->setCreatedBy($user)
             ->setUpdatedBy($user)
+            ->setHasGasStationBrandVerified(false)
+            ->setGasStationBrand($gasStationBrand)
             ->setGasStationId($message->getGasStationId()->getId())
             ->setPop($message->getPop())
             ->setElement($element)
@@ -79,7 +84,7 @@ final class CreateGasStationMessageHandler
 
         FileSystemService::createDirectoryIfDontExist('public/images/gas_stations');
         $filename = sprintf('%s.jpg', Uuid::v4());
-        copy('public/images/75d481da-5dd4-497e-a426-f6367685c042.jpg', sprintf('public/images/gas_stations/%s', $filename));
+        copy('public/images/gas_stations/64c65583705b7210748642.jpg', sprintf('public/images/gas_stations/%s', $filename));
 
         $gasStation->getImage()->setName($filename);
         $gasStation->getImage()->setOriginalName($filename);
@@ -98,9 +103,9 @@ final class CreateGasStationMessageHandler
         $this->em->persist($gasStation);
         $this->em->flush();
 
-        $this->messageBus->dispatch(
-            new GeocodingAddressMessage(new AddressId($gasStation->getAddress()->getId()), new GasStationId($gasStation->getGasStationId()))
-        );
+        // $this->messageBus->dispatch(
+        //     new GeocodingAddressMessage(new AddressId($gasStation->getAddress()->getId()), new GasStationId($gasStation->getGasStationId()))
+        // );
     }
 
     /**
