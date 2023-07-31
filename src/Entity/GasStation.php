@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]

@@ -3,28 +3,58 @@ App\Entity\GasType:
     id: 1
     reference: '<(App\Lists\GasTypeReference::GAZOLE)>'
     name: "Gazole"
+    image.name: "64c7f52995696966168967.png"
+    image.originalName: "64c7f52995696966168967.png"
+    image.mimeType: "image/png"
+    image.size: "37528"
+    image.dimensions: ["500", "500"]
 
   gas_type_not_found_in_text_search:
     id: 2
     reference: '<(App\Lists\GasTypeReference::SP95)>'
     name: "SP95"
+    image.name: "64c7f07c571f2990902417.png"
+    image.originalName: "64c7f07c571f2990902417.png"
+    image.mimeType: "image/png"
+    image.size: "33288"
+    image.dimensions: ["631", "631"]
 
   gas_type_not_found_in_details:
     id: 3
     reference: '<(App\Lists\GasTypeReference::E85)>'
     name: "E85"
+    image.name: "64c7f184360f9186938403.png"
+    image.originalName: "64c7f184360f9186938403.png"
+    image.mimeType: "image/png"
+    image.size: "110284"
+    image.dimensions: ["640", "640"]
 
   gas_type_found_on_gov_map:
     id: 4
     reference: '<(App\Lists\GasTypeReference::GPLC)>'
     name: "GPLC"
+    image.name: "64c7f52995696966168967.png"
+    image.originalName: "64c7f52995696966168967.png"
+    image.mimeType: "image/png"
+    image.size: "37528"
+    image.dimensions: ["500", "500"]
 
   gas_type_found_in_textsearch:
     id: 5
     reference: '<(App\Lists\GasTypeReference::E10)>'
     name: "E10"
+    image.name: "64c7f07c571f2990902417.png"
+    image.originalName: "64c7f07c571f2990902417.png"
+    image.mimeType: "image/png"
+    image.size: "33288"
+    image.dimensions: ["631", "631"]
 
   gas_type_place_id_anomaly:
     id: 6
     reference: '<(App\Lists\GasTypeReference::SP98)>'
     name: "SP98"
+    image.name: "64c7ef469a453991076290.png"
+    image.originalName: "64c7ef469a453991076290.png"
+    image.mimeType: "image/png"
+    image.size: "10838"
+    image.dimensions: ["321", "321"]

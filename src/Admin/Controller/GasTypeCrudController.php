@@ -29,7 +29,7 @@ class GasTypeCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_DETAIL, Action::DELETE)
             ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::DELETE, Action::NEW, Action::EDIT);
+            ->disable(Action::DELETE, Action::NEW);
     }
 
     public function configureFields(string $pageName): iterable
@@ -40,10 +40,10 @@ class GasTypeCrudController extends AbstractCrudController
             TextField::new('name'),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
-                ->renderAsNativeWidget(),
+                ->renderAsNativeWidget()->hideOnForm(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
-                ->renderAsNativeWidget(),
+                ->renderAsNativeWidget()->hideOnForm(),
                 
             FormField::addPanel('Image'),
             TextField::new('imageFile', 'Upload')
@@ -51,7 +51,7 @@ class GasTypeCrudController extends AbstractCrudController
                 ->onlyOnForms(),
             ImageField::new('image.name', 'Image')
             ->setRequired(true)
-                ->setBasePath('/images/gas_stations_brand/')
+                ->setBasePath('/images/gas_types/')
                 ->hideOnForm(),
             TextField::new('image.name', 'Name')->setDisabled()->hideOnIndex(),
             TextField::new('image.originalName', 'originalName')->setDisabled()->hideOnIndex(),

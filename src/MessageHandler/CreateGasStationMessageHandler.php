@@ -83,8 +83,8 @@ final class CreateGasStationMessageHandler
             ->setStatus(GasStationStatusReference::CREATED);
 
         FileSystemService::createDirectoryIfDontExist('public/images/gas_stations');
-        $filename = sprintf('%s.jpg', Uuid::v4());
-        copy('public/images/gas_stations/64c65583705b7210748642.jpg', sprintf('public/images/gas_stations/%s', $filename));
+        $filename = sprintf('%s.jpg', str_replace('.', '', \uniqid('', true)));
+        copy('public/images/gas_stations/000.jpg', sprintf('public/images/gas_stations/%s', $filename));
 
         $gasStation->getImage()->setName($filename);
         $gasStation->getImage()->setOriginalName($filename);

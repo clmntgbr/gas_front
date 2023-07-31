@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\IdentifyTraits;
 use App\Entity\Traits\NameTraits;
 use App\Repository\GasTypeRepository;
@@ -16,7 +16,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: GasTypeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['get_gas_types']]],
+    ],
+    itemOperations: [
+        'get' => ['normalization_context' => ['skip_null_values' => false, 'groups' => ['get_gas_type']]],
+    ],
+)]
 #[Vich\Uploadable]
 class GasType
 {
@@ -25,7 +32,7 @@ class GasType
     use TimestampableEntity;
     use BlameableEntity;
 
-    #[Vich\UploadableField(mapping: 'gas_types', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
+    #[Vich\UploadableField(mapping: 'gas_types_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
     private ?File $imageFile = null;
 
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
@@ -37,7 +44,7 @@ class GasType
         $this->uuid = Uuid::v4();
     }
 
-    #[Groups(['get_gas_stations'])]
+    #[Groups(['get_gas_types', 'get_gas_type'])]
     public function getImagePath(): string
     {
         return sprintf('/images/gas_types/%s', $this->getImage()->getName());
