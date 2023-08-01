@@ -35,12 +35,9 @@ class GasStationRepository extends ServiceEntityRepository
     }
 
     /** @return GasStation[] */
-    public function getGasStationsMap(string $longitude, string $latitude, string $radius, array $filters)
+    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeId)
     {
-        $gasTypeFilter = $this->createGasTypesFilter($filters);
-        $gasServiceFilter = $this->createGasServicesFilter($filters);
-        $cityFilter = $this->createGasStationsCitiesFilter($filters);
-        $departmentFilter = $this->createGasStationsDepartmentsFilter($filters);
+        $gasTypeFilter = $this->createGasTypeFilter($gasTypeId);
 
         $query = "  SELECT 
                     s.id, 
@@ -55,36 +52,23 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL  $gasTypeFilter $cityFilter $departmentFilter
-                    -- WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL AND s.status = 'address_formated'  $gasTypeFilter $cityFilter $departmentFilter
-                    HAVING `distance` < $radius $gasServiceFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $gasTypeFilter
+                    HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 50;
         ";
 
         $statement = $this->getEntityManager()->getConnection()->prepare($query);
-
         $query = $this->createQueryBuilder('s')
             ->select('s')
             ->where('s.id IN (:ids)')
             ->setParameter('ids', $statement->executeQuery()->fetchFirstColumn())
             ->getQuery();
-
         return $query->getResult();
     }
 
-    private function createGasTypesFilter($filters)
+    private function createGasTypeFilter(string $gasTypeId)
     {
-        $query = '';
-        if (array_key_exists('gas_type', $filters ?? []) && '' !== $filters['gas_type']) {
-            $gasTypes = explode(',', $filters['gas_type']);
-            $query = ' AND (';
-            foreach ($gasTypes as $gasType) {
-                $query .= "JSON_KEYS(s.last_gas_prices) LIKE '%" . trim($gasType) . "%' OR ";
-            }
-            $query = mb_substr($query, 0, -4);
-            $query .= ')';
-        }
-
+        $query = " AND (JSON_KEYS(s.last_gas_prices) LIKE '%$gasTypeId%')";
         return $query;
     }
 

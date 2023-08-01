@@ -12,10 +12,13 @@ final class GasStationsMapService
     }
 
     /** @param GasStation[] $gasStations */
-    public function invoke($gasStations)
+    public function invoke($gasStations, string $gasTypeId)
     {
         foreach ($gasStations as $key => $gasStation) {
             foreach ($gasStation->getLastGasPrices() as $gasPriceKey => $gasPrice) {
+                if (array_key_exists('gasTypeId', $gasPrice) && $gasPrice['gasTypeId'] !== $gasTypeId) {
+                    continue;
+                }
                 if (!array_key_exists($key, $this->lowGasPrices)) {
                     $this->updateLowGasPrices($gasStation, $key, $gasPriceKey, $gasPrice);
                     continue;

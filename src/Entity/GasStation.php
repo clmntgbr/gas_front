@@ -123,6 +123,11 @@ class GasStation
         $this->gasServices = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return (string) $this->gasStationId;
+    }
+
     #[Groups(['get_gas_stations'])]
     public function getImagePath(): string
     {
