@@ -419,12 +419,12 @@ class GasStation
     {
         $value = 'stable';
 
-        if (array_key_exists($gasPrice->getGasType()->getId(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getId()]) {
-            $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->lastGasPrices[$gasPrice->getGasType()->getId()];
+        if (array_key_exists($gasPrice->getGasType()->getUuid(), $this->lastGasPrices) && null !== $this->lastGasPrices[$gasPrice->getGasType()->getUuid()]) {
+            $this->previousGasPrices[$gasPrice->getGasType()->getUuid()] = $this->lastGasPrices[$gasPrice->getGasType()->getUuid()];
             $value = $this->getGasPriceDifference($gasPrice);
         }
 
-        $this->lastGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice, $value);
+        $this->lastGasPrices[$gasPrice->getGasType()->getUuid()] = $this->hydrateGasPrices($gasPrice, $value);
 
         return $this;
     }
@@ -438,11 +438,11 @@ class GasStation
 
     private function getGasPriceDifference(GasPrice $gasPrice)
     {
-        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] > $gasPrice->getValue()) {
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getUuid()]['gasPriceValue'] > $gasPrice->getValue()) {
             return 'decreasing';
         }
 
-        if ($this->previousGasPrices[$gasPrice->getGasType()->getId()]['gasPriceValue'] < $gasPrice->getValue()) {
+        if ($this->previousGasPrices[$gasPrice->getGasType()->getUuid()]['gasPriceValue'] < $gasPrice->getValue()) {
             return 'increasing';
         }
 
@@ -459,7 +459,7 @@ class GasStation
 
     public function setPreviousGasPrices(GasPrice $gasPrice): self
     {
-        $this->previousGasPrices[$gasPrice->getGasType()->getId()] = $this->hydrateGasPrices($gasPrice);
+        $this->previousGasPrices[$gasPrice->getGasType()->getUuid()] = $this->hydrateGasPrices($gasPrice);
 
         return $this;
     }
@@ -479,6 +479,7 @@ class GasStation
             'gasPriceId' => $gasPrice->getId(),
             'gasPriceDatetimestamp' => $gasPrice->getDateTimestamp(),
             'gasPriceValue' => $gasPrice->getValue(),
+            'gasTypeUuid' => $gasPrice->getGasType()->getUuid(),
             'gasTypeId' => $gasPrice->getGasType()->getId(),
             'gasTypeLabel' => $gasPrice->getGasType()->getName(),
             'currency' => $gasPrice->getCurrency()->getName(),

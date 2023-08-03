@@ -35,9 +35,9 @@ class GasStationRepository extends ServiceEntityRepository
     }
 
     /** @return GasStation[] */
-    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeId)
+    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeUuid)
     {
-        $gasTypeFilter = $this->createGasTypeFilter($gasTypeId);
+        $gasTypeFilter = $this->createGasTypeFilter($gasTypeUuid);
 
         $query = "  SELECT 
                     s.id, 
@@ -66,9 +66,9 @@ class GasStationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    private function createGasTypeFilter(string $gasTypeId)
+    private function createGasTypeFilter(string $gasTypeUuid)
     {
-        $query = " AND (JSON_KEYS(s.last_gas_prices) LIKE '%$gasTypeId%')";
+        $query = " AND (JSON_KEYS(s.last_gas_prices) LIKE '%$gasTypeUuid%')";
         return $query;
     }
 

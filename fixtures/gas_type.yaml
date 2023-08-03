@@ -1,6 +1,7 @@
 App\Entity\GasType:
   gas_type_in_creation:
     id: 1
+    uuid: "b867eebc-fe90-4de5-acfc-ffc1db06c2e7"
     reference: '<(App\Lists\GasTypeReference::GAZOLE)>'
     name: "Gazole"
     image.name: "64c7f52995696966168967.png"
@@ -11,6 +12,7 @@ App\Entity\GasType:
 
   gas_type_not_found_in_text_search:
     id: 2
+    uuid: "e9349b11-2fae-49dd-a9b8-55e36592ef7f"
     reference: '<(App\Lists\GasTypeReference::SP95)>'
     name: "SP95"
     image.name: "64c7f07c571f2990902417.png"
@@ -21,6 +23,7 @@ App\Entity\GasType:
 
   gas_type_not_found_in_details:
     id: 3
+    uuid: "7778d8a7-6b50-4503-947f-864834568f11"
     reference: '<(App\Lists\GasTypeReference::E85)>'
     name: "E85"
     image.name: "64c7f184360f9186938403.png"
@@ -31,6 +34,7 @@ App\Entity\GasType:
 
   gas_type_found_on_gov_map:
     id: 4
+    uuid: "e0ccc452-f995-4765-954d-e9f96ad48b9c"
     reference: '<(App\Lists\GasTypeReference::GPLC)>'
     name: "GPLC"
     image.name: "64c7f52995696966168967.png"
@@ -41,6 +45,7 @@ App\Entity\GasType:
 
   gas_type_found_in_textsearch:
     id: 5
+    uuid: "719190d5-dd67-4f06-b308-39d3326ab749"
     reference: '<(App\Lists\GasTypeReference::E10)>'
     name: "E10"
     image.name: "64c7f07c571f2990902417.png"
@@ -51,6 +56,7 @@ App\Entity\GasType:
 
   gas_type_place_id_anomaly:
     id: 6
+    uuid: "f7df3316-aeab-417c-ac4f-84a5e05bdd71"
     reference: '<(App\Lists\GasTypeReference::SP98)>'
     name: "SP98"
     image.name: "64c7ef469a453991076290.png"

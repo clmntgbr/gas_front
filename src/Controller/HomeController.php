@@ -12,8 +12,6 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(GasStationRepository $gasStationRepository): Response
     {
-        dd($gasStationRepository->findOneBy(['gasStationId' => 94542003]));
-
         return $this->render('Home/index.html.twig', []);
     }
 }

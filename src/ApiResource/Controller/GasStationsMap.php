@@ -24,9 +24,9 @@ class GasStationsMap extends AbstractController
         $latitude = $request->query->get('latitude') ?? 48.764977;
         $longitude = $request->query->get('longitude') ?? 2.358192;
         $radius = $request->query->get('radius') ?? 50000;
-        $gasTypeId = $request->query->get('gasTypeId') ?? '1';
+        $gasTypeUuid = $request->query->get('gasTypeUuid') ?? '1';
 
-        $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $gasTypeId);
-        return $this->gasStationsMapService->invoke($gasStations, $gasTypeId);
+        $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $gasTypeUuid);
+        return $this->gasStationsMapService->invoke($gasStations, $gasTypeUuid);
     }
 }

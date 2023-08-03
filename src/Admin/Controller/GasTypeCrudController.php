@@ -35,22 +35,23 @@ class GasTypeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('reference'),
+            IdField::new('id')->hideOnIndex(),
+            TextField::new('uuid'),
+            TextField::new('reference')->hideOnIndex(),
             TextField::new('name'),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
-                ->renderAsNativeWidget()->hideOnForm(),
+                ->renderAsNativeWidget()->hideOnForm()->hideOnIndex(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()->hideOnForm(),
-                
+
             FormField::addPanel('Image'),
             TextField::new('imageFile', 'Upload')
-            ->setFormType(VichImageType::class)
+                ->setFormType(VichImageType::class)
                 ->onlyOnForms(),
             ImageField::new('image.name', 'Image')
-            ->setRequired(true)
+                ->setRequired(true)
                 ->setBasePath('/images/gas_types/')
                 ->hideOnForm(),
             TextField::new('image.name', 'Name')->setDisabled()->hideOnIndex(),

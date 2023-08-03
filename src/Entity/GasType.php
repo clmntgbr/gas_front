@@ -41,7 +41,6 @@ class GasType
     public function __construct()
     {
         $this->image = new EmbeddedFile();
-        $this->uuid = Uuid::v4();
     }
 
     #[Groups(['get_gas_types', 'get_gas_type'])]
