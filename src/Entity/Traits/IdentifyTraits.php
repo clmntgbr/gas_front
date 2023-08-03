@@ -13,6 +13,7 @@ trait IdentifyTraits
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column]
     #[ApiProperty(identifier: false)]
+    #[Groups(['get_gas_types'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::GUID, unique: true, length: 36)]
