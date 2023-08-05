@@ -3,9 +3,9 @@ App\Entity\GasType:
     id: 1
     uuid: "b867eebc-fe90-4de5-acfc-ffc1db06c2e7"
     reference: '<(App\Lists\GasTypeReference::GAZOLE)>'
-    name: "Gazole"
-    image.name: "64c7f52995696966168967.png"
-    image.originalName: "64c7f52995696966168967.png"
+    name: "Diesel B7"
+    image.name: "64cdd453b49ec624824181.png"
+    image.originalName: "64cdd453b49ec624824181.png"
     image.mimeType: "image/png"
     image.size: "37528"
     image.dimensions: ["500", "500"]
@@ -15,8 +15,8 @@ App\Entity\GasType:
     uuid: "e9349b11-2fae-49dd-a9b8-55e36592ef7f"
     reference: '<(App\Lists\GasTypeReference::SP95)>'
     name: "SP95"
-    image.name: "64c7f07c571f2990902417.png"
-    image.originalName: "64c7f07c571f2990902417.png"
+    image.name: "64cdd67e12cf8665026602.png"
+    image.originalName: "64cdd67e12cf8665026602.png"
     image.mimeType: "image/png"
     image.size: "33288"
     image.dimensions: ["631", "631"]
@@ -26,8 +26,8 @@ App\Entity\GasType:
     uuid: "7778d8a7-6b50-4503-947f-864834568f11"
     reference: '<(App\Lists\GasTypeReference::E85)>'
     name: "E85"
-    image.name: "64c7f184360f9186938403.png"
-    image.originalName: "64c7f184360f9186938403.png"
+    image.name: "64cdd51d38f06354347711.png"
+    image.originalName: "64cdd51d38f06354347711.png"
     image.mimeType: "image/png"
     image.size: "110284"
     image.dimensions: ["640", "640"]
@@ -36,9 +36,9 @@ App\Entity\GasType:
     id: 4
     uuid: "e0ccc452-f995-4765-954d-e9f96ad48b9c"
     reference: '<(App\Lists\GasTypeReference::GPLC)>'
-    name: "GPLC"
-    image.name: "64c7f52995696966168967.png"
-    image.originalName: "64c7f52995696966168967.png"
+    name: "GPL"
+    image.name: "64cddad8d57ae336025164.png"
+    image.originalName: "64cddad8d57ae336025164.png"
     image.mimeType: "image/png"
     image.size: "37528"
     image.dimensions: ["500", "500"]
@@ -48,8 +48,8 @@ App\Entity\GasType:
     uuid: "719190d5-dd67-4f06-b308-39d3326ab749"
     reference: '<(App\Lists\GasTypeReference::E10)>'
     name: "E10"
-    image.name: "64c7f07c571f2990902417.png"
-    image.originalName: "64c7f07c571f2990902417.png"
+    image.name: "64cdd691ee20f236314667.png"
+    image.originalName: "64cdd691ee20f236314667.png"
     image.mimeType: "image/png"
     image.size: "33288"
     image.dimensions: ["631", "631"]
@@ -59,8 +59,8 @@ App\Entity\GasType:
     uuid: "f7df3316-aeab-417c-ac4f-84a5e05bdd71"
     reference: '<(App\Lists\GasTypeReference::SP98)>'
     name: "SP98"
-    image.name: "64c7ef469a453991076290.png"
-    image.originalName: "64c7ef469a453991076290.png"
+    image.name: "64cdd94d13dcc109199821.png"
+    image.originalName: "64cdd94d13dcc109199821.png"
     image.mimeType: "image/png"
     image.size: "10838"
     image.dimensions: ["321", "321"]

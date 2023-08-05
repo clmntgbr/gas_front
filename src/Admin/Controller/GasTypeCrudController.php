@@ -35,9 +35,9 @@ class GasTypeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnIndex(),
-            TextField::new('uuid'),
-            TextField::new('reference')->hideOnIndex(),
+            IdField::new('id')->hideOnIndex()->setDisabled(),
+            TextField::new('uuid')->setDisabled(),
+            TextField::new('reference')->setDisabled(),
             TextField::new('name'),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')

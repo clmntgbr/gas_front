@@ -50,7 +50,9 @@ class GasStationBrandCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('reference'),
+            IdField::new('id')->hideOnIndex()->setDisabled(),
+            TextField::new('uuid')->setDisabled(),
+            TextField::new('reference')->hideOnIndex()->setDisabled(),
             TextField::new('name'),
 
             FormField::addPanel('Image'),

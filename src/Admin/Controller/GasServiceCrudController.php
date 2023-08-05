@@ -53,8 +53,9 @@ class GasServiceCrudController extends AbstractCrudController
 
         if (Crud::PAGE_DETAIL === $pageName) {
             return [
-                IdField::new('id'),
-                TextField::new('reference'),
+                IdField::new('id')->hideOnIndex()->setDisabled(),
+                TextField::new('uuid')->setDisabled(),
+                TextField::new('reference')->hideOnIndex()->setDisabled(),
                 TextField::new('name'),
                 DateTimeField::new('createdAt')
                     ->setFormat('dd/MM/Y HH:mm:ss')
