@@ -3,7 +3,7 @@ App\Entity\GasType:
     id: 1
     uuid: "b867eebc-fe90-4de5-acfc-ffc1db06c2e7"
     reference: '<(App\Lists\GasTypeReference::GAZOLE)>'
-    name: "Diesel B7"
+    name: "DIESEL B7"
     image.name: "64cdd453b49ec624824181.png"
     image.originalName: "64cdd453b49ec624824181.png"
     image.mimeType: "image/png"
