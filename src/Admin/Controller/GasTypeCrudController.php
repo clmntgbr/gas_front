@@ -54,7 +54,7 @@ class GasTypeCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setBasePath('/images/gas_types/')
                 ->hideOnForm(),
-            TextField::new('image.name', 'Name')->setDisabled()->hideOnIndex(),
+            TextField::new('image.name', 'Name')->setDisabled(),
             TextField::new('image.originalName', 'originalName')->setDisabled()->hideOnIndex(),
             NumberField::new('image.size', 'Size')->setDisabled()->hideOnIndex(),
             TextField::new('image.mimeType', 'mimeType')->setDisabled()->hideOnIndex(),
