@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\ApiResource\Controller\GetAddressCities;
+use App\ApiResource\Controller\GetAddressDepartments;
+use App\ApiResource\Controller\GetAddressPostalCodes;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\AddressRepository;
 use App\Service\Uuid;
@@ -13,7 +16,38 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get_address_cities' => [
+            'method' => 'GET',
+            'path' => '/address/cities',
+            'controller' => GetAddressCities::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_cities', 'common']],
+        ],
+        'get_address_departments' => [
+            'method' => 'GET',
+            'path' => '/address/departments',
+            'controller' => GetAddressDepartments::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_departments', 'common']],
+        ],
+        'get_address_postal_codes' => [
+            'method' => 'GET',
+            'path' => '/address/postal_codes',
+            'controller' => GetAddressPostalCodes::class,
+            'pagination_enabled' => false,
+            'deserialize' => false,
+            'read' => false,
+            'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_postal_codes', 'common']],
+        ],
+    ],
+    itemOperations: [],
+)]
 class Address
 {
     use IdentifyTraits;
@@ -33,7 +67,7 @@ class Address
     private ?string $number = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    #[Groups(['get_gas_stations'])]
+    #[Groups(['get_gas_stations', 'get_addresses'])]
     private ?string $city;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]

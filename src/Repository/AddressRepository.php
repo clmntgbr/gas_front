@@ -21,28 +21,31 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
-//    /**
-//     * @return Address[] Returns an array of Address objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return float|int|mixed|string [] Returns an array
+     */
+    public function getPostalCodes()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('a.postalCode')
+            ->orderBy('a.postalCode', 'ASC')
+            ->groupBy('a.postalCode')
+            ->getQuery();
 
-//    public function findOneBySomeField($value): ?Address
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $query->getSingleColumnResult();
+    }
+
+    /**
+     * @return float|int|mixed|string [] Returns an array
+     */
+    public function getCities()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('LOWER(MAX(a.city)) as name, a.postalCode as code')
+            ->orderBy('LOWER(MAX(a.city))', 'ASC')
+            ->groupBy('a.postalCode')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
 }

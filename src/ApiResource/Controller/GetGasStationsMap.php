@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 
 #[AsController]
-class GasStationsMap extends AbstractController
+class GetGasStationsMap extends AbstractController
 {
     public static string $operationName = 'get_gas_stations_map';
 

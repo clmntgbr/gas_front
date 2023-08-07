@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\ApiResource\Controller\GasStationsMap;
+use App\ApiResource\Controller\GetGasStationsMap;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\GasStationRepository;
 use App\Service\Uuid;
@@ -25,7 +25,7 @@ use function Safe\json_encode;
         'get_gas_stations_map' => [
             'method' => 'GET',
             'path' => '/gas_stations/map',
-            'controller' => GasStationsMap::class,
+            'controller' => GetGasStationsMap::class,
             'pagination_enabled' => false,
             'deserialize' => false,
             'read' => false,
