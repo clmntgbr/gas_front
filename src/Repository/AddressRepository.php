@@ -27,12 +27,12 @@ class AddressRepository extends ServiceEntityRepository
     public function getPostalCodes()
     {
         $query = $this->createQueryBuilder('a')
-            ->select('a.postalCode')
+            ->select('a.postalCode as code')
             ->orderBy('a.postalCode', 'ASC')
             ->groupBy('a.postalCode')
             ->getQuery();
 
-        return $query->getSingleColumnResult();
+        return $query->getArrayResult();
     }
 
     /**
