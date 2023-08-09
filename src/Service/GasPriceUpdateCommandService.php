@@ -45,8 +45,6 @@ class GasPriceUpdateCommandService
 
             $hash = $this->getHash($datum);
 
-            // dd(array_key_exists($gasStationId->getId(), $gasStations), $gasStations, $gasStationId->getId());
-
             if (!array_key_exists($gasStationId->getId(), $gasStations)) {
                 $this->createGasStationMessage($gasStationId, $hash, $datum);
             }

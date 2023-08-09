@@ -35,9 +35,10 @@ class GasStationRepository extends ServiceEntityRepository
     }
 
     /** @return GasStation[] */
-    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeUuid)
+    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeUuid, array $filterCity)
     {
         $gasTypeFilter = $this->createGasTypeFilter($gasTypeUuid);
+        $cityFilter = $this->createGasStationsCitiesFilter($filterCity);
 
         $query = "  SELECT 
                     s.id, 
@@ -52,7 +53,7 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $gasTypeFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $gasTypeFilter $cityFilter
                     HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 50;
         ";
@@ -88,11 +89,11 @@ class GasStationRepository extends ServiceEntityRepository
         return $query;
     }
 
-    private function createGasStationsCitiesFilter($filters)
+    private function createGasStationsCitiesFilter(array $filterCity)
     {
         $query = '';
-        if (array_key_exists('city', $filters ?? []) && '' !== $filters['city']) {
-            $cities = $filters['city'];
+        if (count($filterCity) >= 1) {
+            $cities = implode(",", $filterCity);
             $query = " AND a.postal_code IN ($cities)";
         }
 

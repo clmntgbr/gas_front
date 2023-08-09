@@ -46,7 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_postal_codes', 'common']],
         ],
     ],
-    itemOperations: [],
+    itemOperations: ['get'],
 )]
 class Address
 {
