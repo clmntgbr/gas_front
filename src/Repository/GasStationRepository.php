@@ -35,10 +35,11 @@ class GasStationRepository extends ServiceEntityRepository
     }
 
     /** @return GasStation[] */
-    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeUuid, array $filterCity)
+    public function getGasStationsMap(string $longitude, string $latitude, string $radius, string $gasTypeUuid, ?string $filterCity, ?string $filterDepartment)
     {
         $gasTypeFilter = $this->createGasTypeFilter($gasTypeUuid);
         $cityFilter = $this->createGasStationsCitiesFilter($filterCity);
+        $departmentFilter = $this->createGasStationsDepartmentsFilter($filterDepartment);
 
         $query = "  SELECT 
                     s.id, 
@@ -53,7 +54,7 @@ class GasStationRepository extends ServiceEntityRepository
   
                     FROM gas_station s 
                     INNER JOIN address a ON s.address_id = a.id
-                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $gasTypeFilter $cityFilter
+                    WHERE a.longitude IS NOT NULL AND a.latitude IS NOT NULL $gasTypeFilter $cityFilter $departmentFilter
                     HAVING `distance` < $radius
                     ORDER BY `distance` ASC LIMIT 50;
         ";
@@ -89,25 +90,23 @@ class GasStationRepository extends ServiceEntityRepository
         return $query;
     }
 
-    private function createGasStationsCitiesFilter(array $filterCity)
+    private function createGasStationsCitiesFilter(?string $filterCity)
     {
         $query = '';
-        if (count($filterCity) >= 1) {
-            $cities = implode(",", $filterCity);
-            $query = " AND a.postal_code IN ($cities)";
+        if ($filterCity === null) {
+            return $query;
         }
-
+        $query = " AND a.postal_code IN ($filterCity)";
         return $query;
     }
 
-    private function createGasStationsDepartmentsFilter($filters)
+    private function createGasStationsDepartmentsFilter(?string $filterDepartment)
     {
         $query = '';
-        if (array_key_exists('department', $filters ?? []) && '' !== $filters['department']) {
-            $departments = $filters['department'];
-            $query = " AND SUBSTRING(a.postal_code, 1, 2) IN ($departments)";
+        if ($filterDepartment === null) {
+            return $query;
         }
-
+        $query = " AND SUBSTRING(a.postal_code, 1, 2) IN ($filterDepartment)";
         return $query;
     }
 }

@@ -5,7 +5,6 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\ApiResource\Controller\GetAddressCities;
 use App\ApiResource\Controller\GetAddressDepartments;
-use App\ApiResource\Controller\GetAddressPostalCodes;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\AddressRepository;
 use App\Service\Uuid;
@@ -35,15 +34,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'deserialize' => false,
             'read' => false,
             'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_departments', 'common']],
-        ],
-        'get_address_postal_codes' => [
-            'method' => 'GET',
-            'path' => '/address/postal_codes',
-            'controller' => GetAddressPostalCodes::class,
-            'pagination_enabled' => false,
-            'deserialize' => false,
-            'read' => false,
-            'normalization_context' => ['skip_null_values' => false, 'groups' => ['get_addresses_postal_codes', 'common']],
         ],
     ],
     itemOperations: ['get'],
