@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Admin\Filter\GasStationStatusFilter;
 use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
 use App\Message\CreateGooglePlaceTextsearchMessage;
@@ -45,11 +46,23 @@ final class GeocodingAddressMessageHandler
             throw new UnrecoverableMessageHandlingException(sprintf('Address is null (id: %s)', $message->getAddressId()->getId()));
         }
 
+        $gasStation = $this->gasStationRepository->findOneBy(['gasStationId' => $message->getGasStationId()->getId()]);
+
+        if (!$gasStation instanceof GasStation) {
+            throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesn\'t exist (gasStationId : %s)', $message->getGasStationId()->getId()));
+        }
+
+        if (!in_array($gasStation->getStatus(), [GasStationStatusReference::CREATED, GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED])) {
+            throw new UnrecoverableMessageHandlingException(sprintf('Wrong status for Gas Station (gasStationId : %s)', $message->getGasStationId()->getId()));
+        }
+
         $data = $this->positionStackApiService->forward($address);
 
         if (null === $data) {
             return $this->messageBus->dispatch(new ErrorGeocodingAddressMessage($message->getAddressId(), $message->getGasStationId()));
         }
+
+        dump($data);
 
         $address->setPositionStackApiResult($data);
 
@@ -57,19 +70,19 @@ final class GeocodingAddressMessageHandler
             return $this->messageBus->dispatch(new ErrorGeocodingAddressMessage($message->getAddressId(), $message->getGasStationId()));
         }
 
+        dump($data['confidence']);
+
         if ($data['confidence'] < self::CONFIDENCE_ERROR) {
             return $this->messageBus->dispatch(new ErrorGeocodingAddressMessage($message->getAddressId(), $message->getGasStationId()));
         }
 
         $this->addressService->hydrate($address, $data);
 
-        $gasStation = $this->gasStationRepository->findOneBy(['gasStationId' => $message->getGasStationId()->getId()]);
-
-        if (!$gasStation instanceof GasStation) {
-            throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesn\'t exist (gasStationId : %s)', $message->getGasStationId()->getId()));
-        }
+        dump($gasStation->getStatus());
 
         $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::ADDRESS_FORMATED);
+
+        dump($gasStation->getStatus());
 
         // return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getGasStationId()));
     }

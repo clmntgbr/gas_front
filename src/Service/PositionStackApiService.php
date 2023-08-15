@@ -31,6 +31,7 @@ class PositionStackApiService
 
         $datum = $data['data'][0];
         $datum['forwardUrl'] = $url;
+        $datum['oldVicinity'] = $address->getVicinity();
         return $datum;
     }
 
@@ -52,6 +53,7 @@ class PositionStackApiService
 
         $datum = $data['data'][0];
         $datum['reverseUrl'] = $url;
+        $datum['oldVicinity'] = $address->getVicinity();
         return $datum;
     }
 }

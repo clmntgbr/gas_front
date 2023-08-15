@@ -103,9 +103,9 @@ final class CreateGasStationMessageHandler
         $this->em->persist($gasStation);
         $this->em->flush();
 
-        // $this->messageBus->dispatch(
-        //     new GeocodingAddressMessage(new AddressId($gasStation->getAddress()->getId()), new GasStationId($gasStation->getGasStationId()))
-        // );
+        $this->messageBus->dispatch(
+            new GeocodingAddressMessage(new AddressId($gasStation->getAddress()->getId()), new GasStationId($gasStation->getGasStationId()))
+        );
     }
 
     /**

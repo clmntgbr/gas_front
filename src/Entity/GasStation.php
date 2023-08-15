@@ -205,10 +205,6 @@ class GasStation
 
     public function setStatus(string $status): self
     {
-        if ($this->getPreviousStatus() === $status) {
-            return $this;
-        }
-
         $this->status = $status;
         $this->setStatuses($status);
 

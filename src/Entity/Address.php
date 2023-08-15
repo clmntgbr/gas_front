@@ -88,7 +88,7 @@ class Address
 
     public function __toString()
     {
-        return $this->street;
+        return $this->vicinity ?? $this->street;
     }
 
     public function getVicinity(): ?string
