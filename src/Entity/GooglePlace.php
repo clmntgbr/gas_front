@@ -52,6 +52,9 @@ class GooglePlace
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $icon = null;
 
+    #[ORM\Column(type: Types::STRING, length: 50, nullable: true)]
+    private ?string $reference = null;
+
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $wheelchairAccessibleEntrance = null;
 
@@ -60,6 +63,12 @@ class GooglePlace
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $openingHours = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $textsearchApiResult = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $placeDetailsApiResult = null;
 
     public function __construct()
     {
@@ -235,6 +244,52 @@ class GooglePlace
     public function setOpeningHours(?array $openingHours): static
     {
         $this->openingHours = $openingHours;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getTextsearchApiResultAdmin()
+    {
+        return json_encode($this->textsearchApiResult, JSON_PRETTY_PRINT);
+    }
+
+    public function getPlaceDetailsApiResultAdmin()
+    {
+        return json_encode($this->placeDetailsApiResult, JSON_PRETTY_PRINT);
+    }
+
+    public function getPlaceDetailsApiResult(): ?array
+    {
+        return $this->placeDetailsApiResult;
+    }
+
+    public function setPlaceDetailsApiResult(?array $placeDetailsApiResult): self
+    {
+        $this->placeDetailsApiResult = $placeDetailsApiResult;
+
+        return $this;
+    }
+
+    public function getTextsearchApiResult(): ?array
+    {
+        return $this->textsearchApiResult;
+    }
+
+    public function setTextsearchApiResult(?array $textsearchApiResult): self
+    {
+        $this->textsearchApiResult = $textsearchApiResult;
 
         return $this;
     }

@@ -54,7 +54,7 @@ final class GasStationsMapService
     {
         $this->lowGasPrices[$gasPriceKey] = [
             'id' => $gasPrice['gasPriceId'],
-            'gasStationId' => $gasStation->getId(),
+            'gasStationId' => $gasStation->getGasStationId(),
             'gasStationIndex' => $key,
         ];
     }

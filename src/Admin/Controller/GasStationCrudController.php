@@ -4,6 +4,7 @@ namespace App\Admin\Controller;
 
 use App\Admin\Filter\GasStationStatusFilter;
 use App\Entity\GasStation;
+use App\Lists\GasStationStatusReference;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -11,7 +12,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -56,15 +59,23 @@ class GasStationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $gasStationStatus = GasStationStatusReference::getConstantsList();
+
         return [
             FormField::addPanel('Gas Station Details'),
-            IdField::new('gasStationId'),
+            IdField::new('gasStationId')->setDisabled(),
             TextField::new('hash')->hideOnIndex()->setDisabled(),
             TextField::new('pop')->hideOnIndex(),
             TextField::new('name'),
-            TextField::new('googlePlaceId')->onlyOnIndex(),
-            TextField::new('status'),
-            ArrayField::new('statuses')->hideOnIndex()->setDisabled(),
+            AssociationField::new('googlePlace')->onlyOnIndex(),
+            ChoiceField::new('status')
+                ->autocomplete()
+                ->renderAsNativeWidget()
+                ->setChoices($gasStationStatus),
+            ArrayField::new('statuses')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Status History'),
             CodeEditorField::new('lastGasPricesAdmin')->hideOnIndex()->hideOnForm()->setLabel('lastGasPrices')->setNumOfRows(100),
             CodeEditorField::new('previousGasPricesAdmin')->hideOnIndex()->hideOnForm()->setLabel('previousGasPrices'),
 
@@ -78,24 +89,22 @@ class GasStationCrudController extends AbstractCrudController
             AssociationField::new('googlePlace')->hideOnIndex(),
 
             FormField::addPanel('Gas Station Services'),
-            ArrayField::new('gasServices')->hideOnIndex()->hideOnForm(),
+            CollectionField::new('gasServices')->hideOnIndex(),
 
             FormField::addPanel('Gas Station Metadata'),
             DateTimeField::new('createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
-                ->hideOnForm()
+                ->setDisabled()
                 ->hideOnIndex(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
-                ->hideOnForm()
-                ->hideOnForm(),
+                ->setDisabled(),
             DateTimeField::new('closedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
-                ->hideOnForm()
-                ->hideOnForm(),
+                ->setDisabled(),
 
             FormField::addPanel('Image'),
             TextField::new('imageFile', 'Upload')
@@ -113,7 +122,6 @@ class GasStationCrudController extends AbstractCrudController
 
             FormField::addPanel('Json fields'),
             CodeEditorField::new('elementAdmin')->hideOnIndex()->setDisabled()->setLabel('Element'),
-            // CodeEditorField::new('positionStackApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PositionStackApiResult'),
             // CodeEditorField::new('textsearchApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('TextsearchApiResult'),
             // CodeEditorField::new('placeDetailsApiResultAdmin')->hideOnIndex()->setDisabled()->setLabel('PlaceDetailsApiResultAdmin'),
         ];

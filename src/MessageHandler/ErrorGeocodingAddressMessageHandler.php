@@ -3,6 +3,7 @@
 namespace App\MessageHandler;
 
 use App\Lists\GasStationStatusReference;
+use App\Message\CreateGooglePlaceTextsearchMessage;
 use App\Message\ErrorGeocodingAddressMessage;
 use App\Repository\AddressRepository;
 use App\Repository\GasStationRepository;
@@ -66,5 +67,7 @@ final class ErrorGeocodingAddressMessageHandler
 
         $this->addressService->hydrate($address, $data);
         $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::ADDRESS_FORMATED);
+
+        return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getGasStationId()));
     }
 }

@@ -109,4 +109,20 @@ class GasStationRepository extends ServiceEntityRepository
         $query = " AND SUBSTRING(a.postal_code, 1, 2) IN ($filterDepartment)";
         return $query;
     }
+
+    /**
+     * @return GasStation[]
+     * @throws QueryException
+     */
+    public function getGasStationGooglePlaceByPlaceId(GasStation $gasStation)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('s')
+            ->innerJoin('s.googlePlace', 'ss')
+            ->where('ss.placeId = :placeId AND ss.placeId IS NOT NULL')
+            ->setParameter('placeId', $gasStation->getGooglePlace()->getPlaceId())
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
