@@ -204,6 +204,23 @@ class GasStation
         return $this->status;
     }
 
+    public function getStatusAdmin()
+    {
+        return null;
+    }
+
+    public function setStatusAdmin(?string $status): self
+    {
+        if (null === $status) {
+            return $this;
+        }
+
+        $this->status = $status;
+        $this->setStatuses($status);
+
+        return $this;
+    }
+
     public function setStatus(string $status): self
     {
         $this->status = $status;
@@ -215,6 +232,11 @@ class GasStation
     public function getStatuses(): ?array
     {
         return $this->statuses;
+    }
+
+    public function getStatusesAdmin(): ?array
+    {
+        return array_reverse($this->statuses);
     }
 
     public function setStatuses(string $status): self

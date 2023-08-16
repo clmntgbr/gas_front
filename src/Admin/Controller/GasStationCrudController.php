@@ -59,7 +59,13 @@ class GasStationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $gasStationStatus = GasStationStatusReference::getConstantsList();
+        $gasStationStatus = [
+            GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED => GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED,
+            GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH => GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH,
+            GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS,
+            GasStationStatusReference::CLOSED => GasStationStatusReference::CLOSED,
+            GasStationStatusReference::OPEN => GasStationStatusReference::OPEN,
+        ];
 
         return [
             FormField::addPanel('Gas Station Details'),
@@ -67,12 +73,20 @@ class GasStationCrudController extends AbstractCrudController
             TextField::new('hash')->hideOnIndex()->setDisabled(),
             TextField::new('pop')->hideOnIndex(),
             TextField::new('name'),
-            AssociationField::new('googlePlace')->onlyOnIndex(),
-            ChoiceField::new('status')
+
+            FormField::addPanel('GooglePlace'),
+            IdField::new('googlePlace.id')->hideOnIndex()->setDisabled(),
+            TextField::new('googlePlace.placeId')->hideOnIndex(),
+            TextField::new('googlePlace.url')->hideOnIndex(),
+
+            FormField::addPanel('Status'),
+            TextField::new('status')->setDisabled(),
+            ChoiceField::new('statusAdmin')
+                ->setLabel('Change status')
                 ->autocomplete()
                 ->renderAsNativeWidget()
                 ->setChoices($gasStationStatus),
-            ArrayField::new('statuses')
+            ArrayField::new('statusesAdmin')
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('Status History'),

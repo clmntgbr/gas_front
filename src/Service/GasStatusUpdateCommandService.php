@@ -32,8 +32,8 @@ class GasStatusUpdateCommandService
                 GasStationStatusReference::ADDRESS_FORMATED => $this->textSearch($gasStation),
                 GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH => $this->textSearch($gasStation),
 
-                GasStationStatusReference::FOUND_IN_TEXTSEARCH => $this->textSearch($gasStation),
-                GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => $this->textSearch($gasStation),
+                GasStationStatusReference::FOUND_IN_TEXTSEARCH => $this->detailsSearch($gasStation),
+                GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => $this->detailsSearch($gasStation),
 
                 default => '',
             };
