@@ -15,7 +15,6 @@ use App\Repository\GasStationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileSystemService;
 use App\Service\GasServiceService;
-use App\Service\Uuid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;

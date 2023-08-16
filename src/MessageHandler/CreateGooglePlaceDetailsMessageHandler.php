@@ -8,20 +8,18 @@ use App\Repository\GasStationRepository;
 use App\Service\GasStationService;
 use App\Service\GooglePlaceApiService;
 use App\Service\GooglePlaceService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 #[AsMessageHandler()]
 final class CreateGooglePlaceDetailsMessageHandler
 {
     public function __construct(
-        private EntityManagerInterface        $em,
+        private EntityManagerInterface $em,
         private readonly GasStationRepository $gasStationRepository,
-        private readonly GooglePlaceApiService   $googlePlaceApiService,
-        private readonly GooglePlaceService   $googlePlaceService,
+        private readonly GooglePlaceApiService $googlePlaceApiService,
+        private readonly GooglePlaceService $googlePlaceService,
         private readonly GasStationService $gasStationService
     ) {
     }
@@ -57,6 +55,7 @@ final class CreateGooglePlaceDetailsMessageHandler
         $this->googlePlaceService->updateGasStationAddress($gasStation, $response);
 
         $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::FOUND_IN_DETAILS);
+
         return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::WAITING_VALIDATION);
     }
 }

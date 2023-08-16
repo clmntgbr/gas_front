@@ -9,14 +9,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class GasStationBrandCrudController extends AbstractCrudController
 {
@@ -82,7 +81,6 @@ class GasStationBrandCrudController extends AbstractCrudController
             NumberField::new('imageLow.size', 'Size')->setDisabled()->hideOnIndex(),
             TextField::new('imageLow.mimeType', 'mimeType')->setDisabled()->hideOnIndex(),
             ArrayField::new('imageLow.dimensions', 'Dimensions')->setDisabled()->hideOnIndex(),
-
         ];
     }
 }

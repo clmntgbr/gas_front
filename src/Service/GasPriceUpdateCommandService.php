@@ -45,7 +45,7 @@ class GasPriceUpdateCommandService
                 continue;
             }
 
-            $count++;
+            ++$count;
 
             $hash = $this->getHash($datum);
 
@@ -59,7 +59,7 @@ class GasPriceUpdateCommandService
 
             $this->createGasPricesMessage($gasStationId, $datum);
             if ($count >= 20) {
-                die;
+                exit;
             }
         }
     }

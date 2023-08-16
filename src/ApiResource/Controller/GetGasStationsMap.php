@@ -7,7 +7,6 @@ use App\Service\GasStationsMapService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Safe;
 
 #[AsController]
 class GetGasStationsMap extends AbstractController
@@ -30,6 +29,7 @@ class GetGasStationsMap extends AbstractController
         $filterDepartment = $request->query->get('filter_department') ?? null;
 
         $gasStations = $this->gasStationRepository->getGasStationsMap($longitude, $latitude, $radius, $gasTypeUuid, $filterCity, $filterDepartment);
+
         return $this->gasStationsMapService->invoke($gasStations, $gasTypeUuid);
     }
 }

@@ -10,11 +10,9 @@ use App\Repository\GasStationRepository;
 use App\Service\GasStationService;
 use App\Service\GooglePlaceApiService;
 use App\Service\GooglePlaceService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler()]

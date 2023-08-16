@@ -5,11 +5,9 @@ namespace App\MessageHandler;
 use App\Lists\GasStationStatusReference;
 use App\Message\CreateGooglePlaceAnomalyMessage;
 use App\Repository\GasStationRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 #[AsMessageHandler()]
 final class CreateGooglePlaceAnomalyMessageHandler
