@@ -22,7 +22,7 @@ final class GooglePlaceService
         foreach ($gasStations as $gasStationAnomaly) {
             $this->messageBus->dispatch(
                 new CreateGooglePlaceAnomalyMessage(
-                    new GasStationId($gasStationAnomaly->getId())
+                    new GasStationId($gasStationAnomaly->getGasStationId())
                 )
             );
         }
