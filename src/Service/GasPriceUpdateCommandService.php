@@ -66,9 +66,7 @@ class GasPriceUpdateCommandService
 
     private function getHash(array $datum): string
     {
-        $element = $datum;
-        unset($element['prix']);
-
+        $element = $datum['services'] ?? [];
         return hash('sha256', json_encode($element));
     }
 

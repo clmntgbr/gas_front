@@ -14,6 +14,7 @@ Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     .addEntry('app', './assets/app.js')
+    .addEntry('admin', './assets/admin.js')
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
     .enableSassLoader()

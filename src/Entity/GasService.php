@@ -22,7 +22,7 @@ class GasService
     use TimestampableEntity;
     use BlameableEntity;
 
-    #[ORM\ManyToMany(targetEntity: GasStation::class, inversedBy: 'gasServices', fetch: 'EXTRA_LAZY')]
+    #[ORM\ManyToMany(targetEntity: GasStation::class, mappedBy: 'gasServices', fetch: 'EXTRA_LAZY')]
     private Collection $gasStations;
 
     public function __construct()

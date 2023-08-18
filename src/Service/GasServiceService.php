@@ -7,12 +7,15 @@ use App\Entity\GasService;
 use App\Entity\GasStation;
 use App\Repository\GasServiceRepository;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 final class GasServiceService
 {
     public function __construct(
         private readonly GasServiceRepository $gasServiceRepository,
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -23,6 +26,16 @@ final class GasServiceService
         }
 
         return new GasStationId($gasStationId);
+    }
+
+    public function deleteGasServices(GasStation $gasStation)
+    {
+        foreach ($gasStation->getGasServices() as $service) {
+            $gasStation->removeGasService($service);
+        }
+
+        $this->em->persist($gasStation);
+        $this->em->flush();
     }
 
     public function createGasServices(GasStation $gasStation, array $services)

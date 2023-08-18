@@ -100,7 +100,7 @@ class GasStation
     #[ORM\OneToMany(mappedBy: 'gasStation', targetEntity: GasPrice::class, cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private Collection $gasPrices;
 
-    #[ORM\ManyToMany(targetEntity: GasService::class, mappedBy: 'gasStations', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: GasService::class, inversedBy: 'gasStations', cascade: ['persist'])]
     #[Groups(['get_gas_stations'])]
     private Collection $gasServices;
 
