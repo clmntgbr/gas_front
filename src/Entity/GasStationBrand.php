@@ -26,7 +26,7 @@ class GasStationBrand
     use BlameableEntity;
 
     #[Vich\UploadableField(mapping: 'gas_stations_brand_image', fileNameProperty: 'image.name', size: 'image.size', mimeType: 'image.mimeType', originalName: 'image.originalName', dimensions: 'image.dimensions')]
-    private ?File $imageFile = null;
+    public ?File $imageFile = null;
 
     #[ORM\Embedded(class: 'Vich\UploaderBundle\Entity\File')]
     private EmbeddedFile $image;

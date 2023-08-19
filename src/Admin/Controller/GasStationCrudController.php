@@ -25,6 +25,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
+use Symfony\Component\Console\Helper\TableRows;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class GasStationCrudController extends AbstractCrudController
@@ -111,73 +112,74 @@ class GasStationCrudController extends AbstractCrudController
             CodeEditorField::new('lastGasPricesAdmin')
                 ->hideOnIndex()
                 ->setDisabled()
-                ->setLabel('lastGasPrices'),
+                ->setLabel('LastGasPrices'),
             CodeEditorField::new('previousGasPricesAdmin')
                 ->hideOnIndex()
                 ->setDisabled()
-                ->setLabel('previousGasPrices'),
+                ->setLabel('PreviousGasPrices'),
 
             FormField::addPanel('GooglePlace'),
             IdField::new('googlePlace.uuid')
                 ->hideOnIndex()
                 ->setDisabled()
-                ->setLabel('uuid')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+                ->setLabel('Uuid')
+                ->setColumns('col-sm-12'),
+            FormField::addRow(),
             TextField::new('googlePlace.placeId')
                 ->hideOnIndex()
-                ->setLabel('placeId')
+                ->setLabel('PlaceId')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.googleId')
                 ->hideOnIndex()
-                ->setLabel('googleId')
+                ->setLabel('GoogleId')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.website')
                 ->hideOnIndex()
-                ->setLabel('website')
+                ->setLabel('Website')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.phoneNumber')
                 ->hideOnIndex()
-                ->setLabel('phoneNumber')
+                ->setLabel('PhoneNumber')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.compoundCode')
                 ->hideOnIndex()
-                ->setLabel('compoundCode')
+                ->setLabel('CompoundCode')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.globalCode')
                 ->hideOnIndex()
-                ->setLabel('globalCode')
+                ->setLabel('GlobalCode')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.googleRating')
                 ->hideOnIndex()
-                ->setLabel('googleRating')
+                ->setLabel('GoogleRating')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.rating')
                 ->hideOnIndex()
-                ->setLabel('rating')
+                ->setLabel('Rating')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.userRatingsTotal')
                 ->hideOnIndex()
-                ->setLabel('userRatingsTotal')
+                ->setLabel('UserRatingsTotal')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.icon')
                 ->hideOnIndex()
-                ->setLabel('icon')
+                ->setLabel('Icon')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.reference')
                 ->hideOnIndex()
-                ->setLabel('reference')
+                ->setLabel('Reference')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.wheelchairAccessibleEntrance')
                 ->hideOnIndex()
-                ->setLabel('wheelchairAccessibleEntrance')
+                ->setLabel('WheelchairAccessibleEntrance')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('googlePlace.businessStatus')
                 ->hideOnIndex()
-                ->setLabel('businessStatus')
+                ->setLabel('BusinessStatus')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             ArrayField::new('googlePlace.openingHours')
                 ->hideOnIndex()
-                ->setLabel('openingHours')
+                ->setLabel('OpeningHours')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('Address'),
@@ -185,61 +187,132 @@ class GasStationCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('Uuid')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+                ->setColumns('col-sm-12'),
+            FormField::addRow(),
             TextField::new('address.vicinity')
                 ->hideOnIndex()
-                ->setLabel('vicinity')
-                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+                ->setLabel('Vicinity')
+                ->setColumns('col-sm-12'),
             TextField::new('address.street')
                 ->hideOnIndex()
-                ->setLabel('street')
+                ->setLabel('Street')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.number')
                 ->hideOnIndex()
-                ->setLabel('number')
+                ->setLabel('Street Number')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.city')
                 ->hideOnIndex()
-                ->setLabel('city')
+                ->setLabel('City')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.region')
                 ->hideOnIndex()
-                ->setLabel('region')
+                ->setLabel('Region')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.postalCode')
                 ->hideOnIndex()
-                ->setLabel('postalCode')
+                ->setLabel('PostalCode')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.country')
                 ->hideOnIndex()
-                ->setLabel('country')
+                ->setLabel('Country')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.longitude')
                 ->hideOnIndex()
-                ->setLabel('longitude')
+                ->setLabel('Longitude')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('address.latitude')
                 ->hideOnIndex()
-                ->setLabel('latitude')
+                ->setLabel('Latitude')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             DateTimeField::new('address.createdAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
                 ->hideOnIndex()
                 ->setDisabled()
+                ->setLabel('CreatedAt')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             DateTimeField::new('address.updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
                 ->hideOnIndex()
                 ->setDisabled()
+                ->setLabel('UpdatedAt')
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('Gas Station Brand'),
-            AssociationField::new('gasStationBrand'),
+            TextField::new('gasStationBrand.uuid')
+                ->setDisabled()
+                ->hideOnIndex()
+                ->setLabel('Uuid')
+                ->setColumns('col-sm-12'),
+            FormField::addRow(),
+            TextField::new('gasStationBrand.name')
+                ->hideOnIndex()
+                ->setLabel('Name')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+            TextField::new('gasStationBrand.reference')
+                ->hideOnIndex()
+                ->setLabel('Reference')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
+
+            FormField::addRow(),
+            TextField::new('gasStationBrand.image.name', 'Name')
+                ->setDisabled()
+                ->setLabel('Image Name')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            TextField::new('gasStationBrand.image.originalName', 'originalName')
+                ->setDisabled()
+                ->setLabel('Image OriginalName')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            NumberField::new('gasStationBrand.image.size', 'Size')
+                ->setDisabled()
+                ->setLabel('Image Size')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            TextField::new('gasStationBrand.image.mimeType', 'mimeType')
+                ->setDisabled()
+                ->setLabel('Image MimeType')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            ArrayField::new('gasStationBrand.image.dimensions', 'Dimensions')
+                ->setDisabled()
+                ->setLabel('Image Dimensions')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+
+            FormField::addRow(),
+            TextField::new('gasStationBrand.imageLow.name', 'Name')
+                ->setDisabled()
+                ->setLabel('Image Low Name')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            TextField::new('gasStationBrand.imageLow.originalName', 'originalName')
+                ->setDisabled()
+                ->setLabel('Image Low OriginalName')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            NumberField::new('gasStationBrand.imageLow.size', 'Size')
+                ->setDisabled()
+                ->setLabel('Image Low Size')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            TextField::new('gasStationBrand.imageLow.mimeType', 'mimeType')
+                ->setDisabled()
+                ->setLabel('Image Low MimeType')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
+            ArrayField::new('gasStationBrand.imageLow.dimensions', 'Dimensions')
+                ->setDisabled()
+                ->setLabel('Image Low Dimensions')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
+                ->hideOnIndex(),
 
             FormField::addPanel('Gas Station Services'),
             CollectionField::new('gasServices')
+                ->setDisabled()
                 ->hideOnIndex(),
 
             FormField::addPanel('Gas Station Metadata'),
@@ -247,15 +320,17 @@ class GasStationCrudController extends AbstractCrudController
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
             DateTimeField::new('updatedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->setDisabled(),
             DateTimeField::new('closedAt')
                 ->setFormat('dd/MM/Y HH:mm:ss')
                 ->renderAsNativeWidget()
-                ->setDisabled(),
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('Image'),
             TextField::new('imageFile', 'Upload')
@@ -267,18 +342,23 @@ class GasStationCrudController extends AbstractCrudController
                 ->hideOnForm(),
             TextField::new('image.name', 'Name')
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
             TextField::new('image.originalName', 'originalName')
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
             NumberField::new('image.size', 'Size')
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
             TextField::new('image.mimeType', 'mimeType')
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
             ArrayField::new('image.dimensions', 'Dimensions')
                 ->setDisabled()
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
 
             FormField::addPanel('Json fields'),
@@ -286,19 +366,18 @@ class GasStationCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('Element'),
+            CodeEditorField::new('address.positionStackApiResultAdmin')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('positionStackApiResult'),
             CodeEditorField::new('googlePlace.textsearchApiResultAdmin')
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('TextsearchApiResult'),
-            // CodeEditorField::new('googlePlace.placeDetailsApiResultAdmin')
-            //     ->hideOnIndex()
-            //     ->setDisabled()
-            //     ->setLabel('PlaceDetailsApiResultAdmin'),
-
-            // CodeEditorField::new('address.positionStackApiResultAdmin')
-            //     ->hideOnIndex()
-            //     ->setDisabled()
-            //     ->setLabel('positionStackApiResult'),
+            CodeEditorField::new('googlePlace.placeDetailsApiResultAdmin')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('PlaceDetailsApiResultAdmin'),
         ];
     }
 }
