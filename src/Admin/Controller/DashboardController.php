@@ -11,6 +11,7 @@ use App\Entity\GasStationBrand;
 use App\Entity\GasType;
 use App\Entity\GooglePlace;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -31,6 +32,15 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('App');
+    }
+
+    public function configureCrud(): Crud
+    {
+        $crud = Crud::new();
+
+        return $crud
+            ->addFormTheme('bundles/EasyAdminBundle/crud/form.html.twig')
+            ->setDefaultSort(['updatedAt' => 'DESC']);
     }
 
     /** @param User $user */

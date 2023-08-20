@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Field\LinkField;
 use App\Admin\Filter\GasStationStatusFilter;
+use App\Entity\Address;
 use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -119,11 +121,16 @@ class GasStationCrudController extends AbstractCrudController
                 ->setLabel('PreviousGasPrices'),
 
             FormField::addPanel('GooglePlace'),
+            IdField::new('googlePlace.id')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Id')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             IdField::new('googlePlace.uuid')
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('Uuid')
-                ->setColumns('col-sm-12'),
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             FormField::addRow(),
             TextField::new('googlePlace.placeId')
                 ->hideOnIndex()
@@ -183,11 +190,16 @@ class GasStationCrudController extends AbstractCrudController
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('Address'),
+            IdField::new('address.id')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Id')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             IdField::new('address.uuid')
                 ->hideOnIndex()
                 ->setDisabled()
                 ->setLabel('Uuid')
-                ->setColumns('col-sm-12'),
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             FormField::addRow(),
             TextField::new('address.vicinity')
                 ->hideOnIndex()
@@ -241,11 +253,16 @@ class GasStationCrudController extends AbstractCrudController
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
 
             FormField::addPanel('Gas Station Brand'),
+            IdField::new('gasStationBrand.id')
+                ->hideOnIndex()
+                ->setDisabled()
+                ->setLabel('Id')
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             TextField::new('gasStationBrand.uuid')
                 ->setDisabled()
                 ->hideOnIndex()
                 ->setLabel('Uuid')
-                ->setColumns('col-sm-12'),
+                ->setColumns('col-sm-6 col-lg-6 col-xxl-3'),
             FormField::addRow(),
             TextField::new('gasStationBrand.name')
                 ->hideOnIndex()
