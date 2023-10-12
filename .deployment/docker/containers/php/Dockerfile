@@ -52,7 +52,7 @@ RUN set -xe \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*;
 
 
-ENV EXT_AMQP_VERSION=master
+ENV EXT_AMQP_VERSION=latest
 
 RUN docker-php-source extract \
     && apk -Uu add git rabbitmq-c-dev \

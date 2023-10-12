@@ -44,18 +44,18 @@ final class CreateGooglePlaceDetailsMessageHandler
             return true;
         }
 
-        $response = $this->googlePlaceApiService->placeDetails($gasStation);
-
-        if (null === $response) {
-            return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::NOT_FOUND_IN_DETAILS);
-        }
-
-        $gasStation->setName(htmlspecialchars_decode(ucwords(strtolower(trim($response['name'] ?? null)))));
-        $this->googlePlaceService->updateGasStationGooglePlace($gasStation, $response);
-        $this->googlePlaceService->updateGasStationAddress($gasStation, $response);
-
-        $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::FOUND_IN_DETAILS);
-
-        return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::WAITING_VALIDATION);
+//        $response = $this->googlePlaceApiService->placeDetails($gasStation);
+//
+//        if (null === $response) {
+//            return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::NOT_FOUND_IN_DETAILS);
+//        }
+//
+//        $gasStation->setName(htmlspecialchars_decode(ucwords(strtolower(trim($response['name'] ?? null)))));
+//        $this->googlePlaceService->updateGasStationGooglePlace($gasStation, $response);
+//        $this->googlePlaceService->updateGasStationAddress($gasStation, $response);
+//
+//        $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::FOUND_IN_DETAILS);
+//
+//        return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::WAITING_VALIDATION);
     }
 }

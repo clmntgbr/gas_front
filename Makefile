@@ -46,8 +46,8 @@ init: install update
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "site is available here: 'https://$(PROJECT_NAME).traefik.me'"
-	@echo "admin is available here: https://$(PROJECT_NAME).traefik.me/admin"
+	@echo "site is available here: 'http://localhost:8085'"
+	@echo "admin is available here: 'http://localhost:8085/admin'"
 
 ## Stop containers
 stop:
@@ -56,13 +56,16 @@ stop:
 restart: stop start
 
 ## Init project
-init: install update drop create migrate migration migrate fixture npm-install npm-build jwt
+init: install update drop create migrate migration migrate fixture npm-install npm-build jwt-overwrite
 
 ## Init project
 init-db: drop create migrate migration migrate fixture
 
 jwt:
-	$(PHP) bin/console lexik:jwt:generate-keypair
+	$(PHP) bin/console lexik:jwt:generate-keypair --skip-if-exists
+
+jwt-overwrite:
+	$(PHP) bin/console lexik:jwt:generate-keypair --overwrite
 
 cache:
 	$(PHP) rm -r var/cache
