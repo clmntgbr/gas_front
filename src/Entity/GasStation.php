@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 use function Safe\json_encode;
 
 #[ORM\Entity(repositoryClass: GasStationRepository::class)]
@@ -110,11 +109,23 @@ class GasStation
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $previousGasPrices;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: false)]
+    private int $maxRetryPositionStack = 0;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: false)]
+    private int $maxRetryTextSearch = 0;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: false)]
+    private int $maxRetryPlaceDetails = 0;
+
     #[Groups(['get_gas_stations'])]
     private bool $hasLowPrices = false;
 
     public function __construct()
     {
+        $this->maxRetryPlaceDetails = 0;
+        $this->maxRetryPositionStack = 0;
+        $this->maxRetryTextSearch = 0;
         $this->statuses = [];
         $this->uuid = Uuid::v4();
         $this->lastGasPrices = [];
@@ -526,6 +537,57 @@ class GasStation
     public function setHasGasStationBrandVerified(?bool $hasGasStationBrandVerified): static
     {
         $this->hasGasStationBrandVerified = $hasGasStationBrandVerified;
+
+        return $this;
+    }
+
+    public function getMaxRetryPositionStack(): ?int
+    {
+        return $this->maxRetryPositionStack;
+    }
+
+    public function addMaxRetryPositionStack(): ?int
+    {
+        return $this->maxRetryPositionStack++;
+    }
+
+    public function setMaxRetryPositionStack(int $maxRetryPositionStack): static
+    {
+        $this->maxRetryPositionStack = $maxRetryPositionStack;
+
+        return $this;
+    }
+
+    public function getMaxRetryTextSearch(): ?int
+    {
+        return $this->maxRetryTextSearch;
+    }
+
+    public function addMaxRetryTextSearch(): ?int
+    {
+        return $this->maxRetryTextSearch++;
+    }
+
+    public function setMaxRetryTextSearch(int $maxRetryTextSearch): static
+    {
+        $this->maxRetryTextSearch = $maxRetryTextSearch;
+
+        return $this;
+    }
+
+    public function getMaxRetryPlaceDetails(): ?int
+    {
+        return $this->maxRetryPlaceDetails;
+    }
+
+    public function addMaxRetryPlaceDetails(): ?int
+    {
+        return $this->maxRetryPlaceDetails++;
+    }
+
+    public function setMaxRetryPlaceDetails(int $maxRetryPlaceDetails): static
+    {
+        $this->maxRetryPlaceDetails = $maxRetryPlaceDetails;
 
         return $this;
     }

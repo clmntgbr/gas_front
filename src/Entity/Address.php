@@ -201,7 +201,7 @@ class Address
 
     public function getPositionStackApiResult(): array
     {
-        return $this->positionStackApiResult;
+        return $this->positionStackApiResult ?? [];
     }
 
     public function getPositionStackApiResultAdmin(): string

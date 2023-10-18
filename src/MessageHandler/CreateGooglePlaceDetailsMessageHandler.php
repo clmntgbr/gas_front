@@ -36,7 +36,7 @@ final class CreateGooglePlaceDetailsMessageHandler
             throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesnt exist (id : %s)', $message->getGasStationId()->getId()));
         }
 
-        if (!in_array($gasStation->getStatus(), [GasStationStatusReference::FOUND_IN_TEXTSEARCH, GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS])) {
+        if (!in_array($gasStation->getStatus(), [GasStationStatusReference::FOUND_IN_TEXTSEARCH, GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS, GasStationStatusReference::NOT_FOUND_IN_DETAILS])) {
             throw new UnrecoverableMessageHandlingException(sprintf('Wrong status for Gas Station (gasStationId : %s)', $message->getGasStationId()->getId()));
         }
 
@@ -44,18 +44,18 @@ final class CreateGooglePlaceDetailsMessageHandler
             return true;
         }
 
-//        $response = $this->googlePlaceApiService->placeDetails($gasStation);
-//
-//        if (null === $response) {
-//            return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::NOT_FOUND_IN_DETAILS);
-//        }
-//
-//        $gasStation->setName(htmlspecialchars_decode(ucwords(strtolower(trim($response['name'] ?? null)))));
-//        $this->googlePlaceService->updateGasStationGooglePlace($gasStation, $response);
-//        $this->googlePlaceService->updateGasStationAddress($gasStation, $response);
-//
-//        $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::FOUND_IN_DETAILS);
-//
-//        return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::WAITING_VALIDATION);
+        $response = $this->googlePlaceApiService->placeDetails($gasStation);
+
+        if (null === $response) {
+            return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::NOT_FOUND_IN_DETAILS);
+        }
+
+        $gasStation->setName(htmlspecialchars_decode(ucwords(strtolower(trim($response['name'] ?? null)))));
+        $this->googlePlaceService->updateGasStationGooglePlace($gasStation, $response);
+        $this->googlePlaceService->updateGasStationAddress($gasStation, $response);
+
+        $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::FOUND_IN_DETAILS);
+
+        return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::WAITING_VALIDATION);
     }
 }

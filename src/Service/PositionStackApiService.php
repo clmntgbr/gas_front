@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Address;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Safe\Exceptions\JsonException;
 
 class PositionStackApiService
 {
@@ -13,11 +15,20 @@ class PositionStackApiService
     ) {
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws JsonException
+     */
     public function forward(Address $address): ?array
     {
         $client = new Client();
         $url = sprintf('%sforward?access_key=%s&query=%s', $this->positionStackUrl, $this->positionStackApiKey, urlencode($address->getVicinity()));
-        $response = $client->request('GET', $url);
+
+        try {
+            $response = $client->request('GET', $url);
+        }catch (\Exception $exception) {
+            return ['message' => $exception->getMessage(), 'forwardUrl' => $url];
+        }
 
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
 
@@ -40,7 +51,12 @@ class PositionStackApiService
     {
         $client = new Client();
         $url = sprintf('%sreverse?access_key=%s&query=%s,%s', $this->positionStackUrl, $this->positionStackApiKey, $address->getLatitude(), $address->getLongitude());
-        $response = $client->request('GET', $url);
+
+        try {
+            $response = $client->request('GET', $url);
+        }catch (\Exception $exception) {
+            return ['message' => $exception->getMessage(), 'reverseUrl' => $url];
+        }
 
         $data = \Safe\json_decode($response->getBody()->getContents(), true);
 

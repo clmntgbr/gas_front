@@ -61,7 +61,12 @@ final class GeocodingAddressMessageHandler
             return $this->messageBus->dispatch(new ErrorGeocodingAddressMessage($message->getAddressId(), $message->getGasStationId()));
         }
 
-        $address->setPositionStackApiResult($data);
+        $positionStackApiResult = $address->getPositionStackApiResult();
+        $positionStackApiResult['forward_api'] = $data;
+        $address->setPositionStackApiResult($positionStackApiResult);
+
+        $this->em->persist($address);
+        $this->em->flush();
 
         if (!array_key_exists('confidence', $data)) {
             return $this->messageBus->dispatch(new ErrorGeocodingAddressMessage($message->getAddressId(), $message->getGasStationId()));
@@ -72,7 +77,6 @@ final class GeocodingAddressMessageHandler
         }
 
         $this->addressService->hydrate($address, $data);
-
         $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::ADDRESS_FORMATED);
 
         return $this->messageBus->dispatch(new CreateGooglePlaceTextsearchMessage($message->getGasStationId()));

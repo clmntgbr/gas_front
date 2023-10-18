@@ -55,7 +55,12 @@ final class ErrorGeocodingAddressMessageHandler
             return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::ADDRESS_ERROR_FORMATED);
         }
 
-        $address->setPositionStackApiResult($data);
+        $positionStackApiResult = $address->getPositionStackApiResult();
+        $positionStackApiResult['reverse_api'] = $data;
+        $address->setPositionStackApiResult($positionStackApiResult);
+
+        $this->em->persist($address);
+        $this->em->flush();
 
         if (!array_key_exists('confidence', $data)) {
             return $this->gasStationService->setGasStationStatus($gasStation, GasStationStatusReference::ADDRESS_ERROR_FORMATED);

@@ -13,7 +13,7 @@ framework:
                         messages_high:
                             binding_keys: [async-priority-high]
                 retry_strategy:
-                    max_retries: 30
+                    max_retries: 10
                     delay: 1000
                     multiplier: 2
                     max_delay: 0
@@ -28,7 +28,7 @@ framework:
                         messages_medium:
                             binding_keys: [async-priority-medium]
                 retry_strategy:
-                    max_retries: 30
+                    max_retries: 10
                     delay: 1000
                     multiplier: 2
                     max_delay: 0
@@ -43,7 +43,7 @@ framework:
                         messages_low:
                             binding_keys: [async-priority-low]
                 retry_strategy:
-                    max_retries: 30
+                    max_retries: 10
                     delay: 1000
                     multiplier: 2
                     max_delay: 0
@@ -58,7 +58,7 @@ framework:
                         messages_low:
                             binding_keys: [failed]
                 retry_strategy:
-                    max_retries: 30
+                    max_retries: 10
                     delay: 1000
                     multiplier: 2
                     max_delay: 0

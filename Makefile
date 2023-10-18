@@ -46,8 +46,8 @@ init: install update
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "site is available here: 'http://localhost:8085'"
-	@echo "admin is available here: 'http://localhost:8085/admin'"
+	@echo "site is available here: 'https://gas.traefik.me'"
+	@echo "admin is available here: 'https://gas.traefik.me/admin'"
 
 ## Stop containers
 stop:

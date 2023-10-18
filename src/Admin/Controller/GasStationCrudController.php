@@ -4,7 +4,6 @@ namespace App\Admin\Controller;
 
 use App\Admin\Field\LinkField;
 use App\Admin\Filter\GasStationStatusFilter;
-use App\Entity\Address;
 use App\Entity\GasStation;
 use App\Lists\GasStationStatusReference;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -14,7 +13,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -27,7 +25,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\TextFilter;
-use Symfony\Component\Console\Helper\TableRows;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class GasStationCrudController extends AbstractCrudController
@@ -377,6 +374,14 @@ class GasStationCrudController extends AbstractCrudController
                 ->setDisabled()
                 ->setColumns('col-sm-6 col-lg-6 col-xxl-3')
                 ->hideOnIndex(),
+
+            FormField::addPanel('Max Retry'),
+            Field::new('maxRetryPositionStack')
+                ->setDisabled(),
+            Field::new('maxRetryTextSearch')
+                ->setDisabled(),
+            Field::new('maxRetryPlaceDetails')
+                ->setDisabled(),
 
             FormField::addPanel('Json fields'),
             CodeEditorField::new('elementAdmin')
