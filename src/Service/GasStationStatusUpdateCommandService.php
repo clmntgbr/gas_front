@@ -15,9 +15,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class GasStationStatusUpdateCommandService
 {
-    const MAX_RETRY_POSITION_STACK = 5;
-    const MAX_RETRY_TEXT_SEARCH = 5;
-    const MAX_RETRY_PLACE_DETAILS = 5;
+    public const MAX_RETRY_POSITION_STACK = 5;
+    public const MAX_RETRY_TEXT_SEARCH = 5;
+    public const MAX_RETRY_PLACE_DETAILS = 5;
 
     public function __construct(
         private readonly GasStationRepository $gasStationRepository,

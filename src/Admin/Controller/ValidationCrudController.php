@@ -50,7 +50,7 @@ class ValidationCrudController extends AbstractController
     #[Route('/admin/validation/validate/{gasStationId}', name: 'app_admin_validation_validate')]
     public function validate(EntityManagerInterface $em, GasStation $gasStation): Response
     {
-        if ($gasStation->getStatus() !== GasStationStatusReference::WAITING_VALIDATION) {
+        if (GasStationStatusReference::WAITING_VALIDATION !== $gasStation->getStatus()) {
             return $this->redirect('/admin?routeName=app_admin_validation');
         }
 
@@ -66,7 +66,7 @@ class ValidationCrudController extends AbstractController
     #[Route('/admin/validation/rejected/textsearch/{gasStationId}', name: 'app_admin_validation_rejected_textsearch')]
     public function rejectedToTextSearch(EntityManagerInterface $em, MessageBusInterface $messageBus, GasStation $gasStation): Response
     {
-        if ($gasStation->getStatus() !== GasStationStatusReference::WAITING_VALIDATION) {
+        if (GasStationStatusReference::WAITING_VALIDATION !== $gasStation->getStatus()) {
             return $this->redirect('/admin?routeName=app_admin_validation');
         }
 
@@ -85,7 +85,7 @@ class ValidationCrudController extends AbstractController
     #[Route('/admin/validation/rejected/placedetails/{gasStationId}', name: 'app_admin_validation_rejected_placedetails')]
     public function rejectedToPlaceDetails(EntityManagerInterface $em, MessageBusInterface $messageBus, GasStation $gasStation): Response
     {
-        if ($gasStation->getStatus() !== GasStationStatusReference::WAITING_VALIDATION) {
+        if (GasStationStatusReference::WAITING_VALIDATION !== $gasStation->getStatus()) {
             return $this->redirect('/admin?routeName=app_admin_validation');
         }
 
