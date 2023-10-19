@@ -13,7 +13,7 @@ use App\Repository\GasStationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class GasStatusUpdateCommandService
+class GasStationStatusUpdateCommandService
 {
     const MAX_RETRY_POSITION_STACK = 5;
     const MAX_RETRY_TEXT_SEARCH = 5;

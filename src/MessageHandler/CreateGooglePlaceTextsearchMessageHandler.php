@@ -65,7 +65,7 @@ final class CreateGooglePlaceTextsearchMessageHandler
          $gasStationsAnomalies = $this->gasStationRepository->getGasStationGooglePlaceByPlaceId($gasStation);
 
          if (count($gasStationsAnomalies) > 0) {
-             return $this->googlePlaceService->createAnomalies($gasStationsAnomalies);
+             return $this->googlePlaceService->createAnomalies(array_merge($gasStationsAnomalies, [$gasStation]));
          }
 
          return $this->messageBus->dispatch(

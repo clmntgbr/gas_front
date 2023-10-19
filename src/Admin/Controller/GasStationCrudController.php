@@ -71,6 +71,9 @@ class GasStationCrudController extends AbstractCrudController
             GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED => GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED,
             GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH => GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH,
             GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS => GasStationStatusReference::UPDATED_TO_FOUND_IN_DETAILS,
+
+            GasStationStatusReference::WAITING_VALIDATION => GasStationStatusReference::WAITING_VALIDATION,
+
             GasStationStatusReference::CLOSED => GasStationStatusReference::CLOSED,
             GasStationStatusReference::OPEN => GasStationStatusReference::OPEN,
         ];

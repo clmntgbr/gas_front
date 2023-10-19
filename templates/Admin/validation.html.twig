@@ -4,6 +4,21 @@
     {% if gasStation is not null and gasStation is defined %}
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <style>
+            .form-panel-header {
+                box-shadow: none!important;
+            }
+
+            .content-header .page-actions {
+                position: fixed!important;
+                z-index: 1000!important;
+                right: 10px!important;
+            }
+
+            .content-header {
+                padding: 5px!important;
+            }
+        </style>
 
         <article class="content">
             <section class="content-header">
@@ -14,12 +29,22 @@
                 </div>
 
                 <div class="page-actions">
-                    <a class=" action-delete btn btn-secondary pr-0 text-danger"
-                       href="https://gas.traefik.me/admin?crudAction=delete&amp;crudControllerFqcn=App%5CAdmin%5CController%5CGasStationCrudController&amp;entityId=16&amp;referrer=https://gas.traefik.me/admin?crudAction%3Ddetail%26crudControllerFqcn%3DApp%255CAdmin%255CController%255CGasStationCrudController%26entityId%3D16"
-                       data-action-name="delete"
-                       formaction="https://gas.traefik.me/admin?crudAction=delete&amp;crudControllerFqcn=App%5CAdmin%5CController%5CGasStationCrudController&amp;entityId=16"
-                       data-bs-toggle="modal" data-bs-target="#modal-delete"><i
-                                class="action-icon fa fa-fw fa-trash-o"></i> <span class="action-label">Delete</span></a>
+
+                    <a class=" action-index btn btn-secondary"
+                       href="/admin?routeName=app_admin_validation&gasStationId={{ gasStation.gasStationId }}"
+                       data-action-name="index"><span class="action-label">Recharger</span></a>
+
+                    <a class=" action-index btn btn-secondary"
+                       href="/admin?routeName=app_admin_validation"
+                       data-action-name="index"><span class="action-label">Suivant</span></a>
+
+                    <a class=" action-index btn btn-secondary"
+                       href="{{ gasStationUrlEdit }}"
+                       data-action-name="index" target="_blank"><span class="action-label">Edit</span></a>
+
+                    <a class=" action-index btn btn-secondary"
+                       href="{{ path('app_admin_validation_rejected_placedetails', {'gasStationId': gasStation.gasStationId}) }}"
+                       data-action-name="index"><span class="action-label">Rejected to PlaceDetails</span></a>
 
                     <a class=" action-index btn btn-secondary"
                        href="{{ path('app_admin_validation_rejected_textsearch', {'gasStationId': gasStation.gasStationId}) }}"
@@ -528,6 +553,20 @@
                                     </dd>
                                 </div>
 
+                                <div class="data-row field-id">
+                                    <dt>
+                                        Same Place Id
+
+                                    </dt>
+                                    <dd>
+                                        {% if gasStations is not empty %}
+                                            {{ gasStations.length }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </dd>
+                                </div>
+
 
                                 <div class="data-row field-text">
                                     <dt>
@@ -537,102 +576,6 @@
                                 </div>
 
                                 <div id="map" style="height: 400px;"></div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Street
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.street }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Street Number
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.number }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        City
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.city }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Region
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.region }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        PostalCode
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.postalCode }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Country
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.country }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Longitude
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.longitude }}
-
-                                    </dd>
-                                </div>
-
-
-                                <div class="data-row field-text">
-                                    <dt>
-                                        Latitude
-
-                                    </dt>
-                                    <dd>
-                                        {{ gasStation.address.latitude }}
-
-                                    </dd>
-                                </div>
 
                             </dl>
                         </div>
