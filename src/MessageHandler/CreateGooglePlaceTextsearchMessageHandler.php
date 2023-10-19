@@ -40,7 +40,12 @@ final class CreateGooglePlaceTextsearchMessageHandler
              throw new UnrecoverableMessageHandlingException(sprintf('Gas Station doesnt exist (id : %s)', $message->getGasStationId()->getId()));
          }
 
-         if (!in_array($gasStation->getStatus(), [GasStationStatusReference::ADDRESS_FORMATED, GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH, GasStationStatusReference::NOT_FOUND_IN_TEXTSEARCH])) {
+         if (!in_array($gasStation->getStatus(), [
+             GasStationStatusReference::ADDRESS_FORMATED,
+             GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH,
+             GasStationStatusReference::NOT_FOUND_IN_TEXTSEARCH,
+             GasStationStatusReference::VALIDATION_REJECTED,
+         ])) {
              throw new UnrecoverableMessageHandlingException(sprintf('Wrong status for Gas Station (gasStationId : %s)', $message->getGasStationId()->getId()));
          }
 
@@ -59,7 +64,7 @@ final class CreateGooglePlaceTextsearchMessageHandler
 
          $gasStationsAnomalies = $this->gasStationRepository->getGasStationGooglePlaceByPlaceId($gasStation);
 
-         if (count($gasStationsAnomalies) > 1) {
+         if (count($gasStationsAnomalies) > 0) {
              return $this->googlePlaceService->createAnomalies($gasStationsAnomalies);
          }
 

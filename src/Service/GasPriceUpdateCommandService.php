@@ -58,7 +58,7 @@ class GasPriceUpdateCommandService
             }
 
             $this->createGasPricesMessage($gasStationId, $datum);
-            if ($count >= 20) { //dev
+            if ($count >= 30) { //dev
                 exit; //dev
             } //dev
         }

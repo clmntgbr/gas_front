@@ -34,6 +34,7 @@ class GasStatusUpdateCommandService
             match ($gasStation->getStatus()) {
                 GasStationStatusReference::CREATED => $this->created($gasStation),
                 GasStationStatusReference::UPDATED_TO_ADDRESS_FORMATED => $this->created($gasStation),
+                GasStationStatusReference::ADDRESS_ERROR_FORMATED => $this->created($gasStation),
 
                 GasStationStatusReference::ADDRESS_FORMATED => $this->textSearch($gasStation),
                 GasStationStatusReference::UPDATED_TO_FOUND_IN_TEXTSEARCH => $this->textSearch($gasStation),
